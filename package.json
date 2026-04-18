@@ -1,0 +1,47 @@
+{
+  "name": "nomena-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "seed:run": "tsx",
+    "seed:extract:names": "tsx src/features/seeds/scripts/extract-ine-names.ts",
+    "seed:enrich:behindthename": "tsx --env-file=.env src/features/seeds/scripts/enrich-behindthename.ts",
+    "seed:generate:json": "tsx src/features/seeds/scripts/generate-names-json.ts",
+    "seed:upload": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/upload-names-to-firebase.ts",
+    "seed:clear:names": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/clear-names.ts"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.99.0",
+    "@tanstack/react-query-devtools": "^5.99.0",
+    "firebase": "^12.12.0",
+    "firebase-admin": "^13.8.0",
+    "node-fetch": "^3.3.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.14.1",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@tanstack/eslint-plugin-query": "^5.99.0",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.0",
+    "vite": "^8.0.4"
+  }
+}
