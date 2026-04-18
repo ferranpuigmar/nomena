@@ -1,11 +1,86 @@
-# React + TypeScript + Vite
+# Nomena App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite app para explorar y descubrir nombres.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + TypeScript + Vite
+- Firebase (Firestore + Auth)
+- TanStack Query
+- Zustand
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev
+```
+
+## Seeds
+
+Sistema de seeds para alimentar la base de datos de Firebase con nombres del INE enriquecidos con datos externos.
+
+### Fuentes de datos
+
+| Fuente | Datos | Campo |
+|---|---|---|
+| [INE](https://www.ine.es) | Frecuencia y ranking en España | `usage_score`, `popularity_rank` |
+| [Behind the Name](https://www.behindthename.com/api/) | Significado, origen, género | `meaning`, `origin`, `genderEstimate` |
+
+### Estructura
+
+```
+src/features/seeds/
+  api/
+    firebase/
+      admin.ts       ← inicialización Firebase Admin SDK
+      upload.ts      ← subida a Firestore
+      delete.ts      ← borrado de colecciones
+    providers/
+      behind-the-name.ts  ← API Behind the Name
+  scripts/
+    extract-ine-names.ts      ← extrae nombres únicos del Excel del INE
+    enrich-behindthename.ts   ← enriquece con meaning/origin/gender
+    generate-names-json.ts    ← combina INE + enrichment → names.json
+    upload-names-to-firebase.ts ← sube names.json a Firestore
+    clear-names.ts            ← vacía la colección names
+  types/
+    seed-type.ts
+  utils/
+    name-utils.ts
+  files/              ← archivos de datos (ignorados por git)
+    nombres_por_edad_media.xlsx
+    ine-unique-names.json
+    behindthename.json
+    names.json
+```
+
+### Variables de entorno necesarias
+
+```bash
+GOOGLE_APPLICATION_CREDENTIALS=./service-account.json  # Firebase Admin SDK
+BEHINDTHENAME_API_KEY=tu_clave                          # Behind the Name API
+```
+
+### Flujo completo
+
+```bash
+# 1. Extraer nombres únicos del Excel del INE
+npm run seed:extract:names
+
+# 2. Enriquecer con Behind the Name (resumible, respeta límite de 400 req/hora)
+npm run seed:enrich:behindthename
+
+# 3. Generar names.json combinando INE + enrichment
+npm run seed:generate:json
+
+# 4. Subir a Firestore
+npm run seed:upload
+
+# Utilidades
+npm run seed:clear:names   # vaciar colección names
+```
+
 
 ## React Compiler
 
