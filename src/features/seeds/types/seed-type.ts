@@ -9,4 +9,6 @@ export type NameSeed = Name & {
   genderProbability?: number;
   genderSource?: string;
   isUnisex?: boolean;
+  meaning?: string;
+  origin?: string;
 };

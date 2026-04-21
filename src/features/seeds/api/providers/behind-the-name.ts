@@ -1,6 +1,5 @@
 export interface BehindTheNameResult {
-  meaning?: string;
-  origin?: string;
+  origin?: string;        // Nombre del idioma/cultura, ej: "Arabic", "Hebrew", "English"
   genderEstimate?: 'boy' | 'girl' | 'neutral';
 }
 
@@ -27,8 +26,7 @@ export async function fetchBehindTheName(name: string, apiKey: string): Promise<
     undefined;
 
   return {
-    meaning: entry?.usages?.[0]?.usage_full ?? undefined,
-    origin: entry?.usages?.[0]?.usage_code ?? undefined,
+    origin: entry?.usages?.[0]?.usage_full ?? undefined,
     genderEstimate,
   };
 }

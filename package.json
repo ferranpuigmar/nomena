@@ -11,11 +11,15 @@
     "seed:run": "tsx",
     "seed:extract:names": "tsx src/features/seeds/scripts/extract-ine-names.ts",
     "seed:enrich:behindthename": "tsx --env-file=.env src/features/seeds/scripts/enrich-behindthename.ts",
+    "seed:enrich:namedictionary": "tsx --env-file=.env src/features/seeds/scripts/enrich-behindthename.ts",
+    "seed:enrich:web": "tsx src/features/seeds/scripts/enrich-names-web.ts",
     "seed:generate:json": "tsx src/features/seeds/scripts/generate-names-json.ts",
     "seed:upload": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/upload-names-to-firebase.ts",
-    "seed:clear:names": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/clear-names.ts"
+    "seed:clear:names": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/clear-names.ts",
+    "seed:migrate:users:display-name": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/migrate-users-display-name.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.99.0",
     "@tanstack/react-query-devtools": "^5.99.0",
     "firebase": "^12.12.0",
@@ -23,12 +27,15 @@
     "node-fetch": "^3.3.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-hook-form": "^7.73.1",
     "react-router-dom": "^7.14.1",
     "xlsx": "^0.18.5",
+    "zod": "^4.3.6",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@tailwindcss/vite": "^4.2.3",
     "@tanstack/eslint-plugin-query": "^5.99.0",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
@@ -38,6 +45,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "tailwindcss": "^4.2.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "~6.0.2",

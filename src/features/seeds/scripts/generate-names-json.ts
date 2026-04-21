@@ -12,7 +12,7 @@ import { normalizeName } from '../utils/name-utils';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const EXCEL_FILE = path.resolve(__dirname, '../files/nombres_por_edad_media.xlsx');
-const BEHINDTHENAME_FILE = path.resolve(__dirname, '../files/behindthename.json');
+const BEHINDTHENAME_FILE = path.resolve(__dirname, '../files/nameDictionary-enriched-full-web.json');
 const OUTPUT_FILE = path.resolve(__dirname, '../files/names.json');
 
 const enrichmentMap: Record<string, { meaning?: string; origin?: string; genderEstimate?: 'boy' | 'girl' | 'neutral' }> =

@@ -1,1 +1,1 @@
-export { adminDb } from '../../../lib/firebase-admin';
+export { adminDb } from '../../../../lib/firebase-admin';

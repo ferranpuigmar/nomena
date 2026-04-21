@@ -1,13 +1,8 @@
-import { useNames } from "./features/names/hooks/use-names";
+import { RouterProvider } from 'react-router-dom'
+import { router } from './app/router'
 
 function App() {
-  const { data: names, isLoading, error } = useNames();
-  
-  console.log({ names, isLoading, error });
-
-  return (
-      <div className="App"></div>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
