@@ -8,6 +8,7 @@ import { RegisterPage } from './pages/public/register-page';
 import { FavoritesPage } from '../features/favorites/pages/favorites-page';
 import AccountPage from '../features/account/pages/account-page';
 import { AccountProfilePage } from '../features/account/pages/account-profile-page';
+import { CouplePage } from '../features/couple/pages/couple-page';
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
                     { index: true, element: <Navigate to="profile" replace /> },
                     { path: 'profile', element: <AccountProfilePage /> },
                     { path: 'favorites', element: <FavoritesPage /> },
+                    { path: 'couple', element: <CouplePage /> },
                 ],
             },
             { path: 'login', element: <LoginPage /> },

@@ -8,7 +8,7 @@ import {
   startAfter,
 } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
-import type { Name, NameDb } from '../../types/api-type';
+import type { Name, NameDb } from '../../types/names-type';
 import { mapDbNameToDomain, normalizeDbName } from './mappers';
 
 type GetNamesParams = {

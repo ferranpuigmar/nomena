@@ -1,4 +1,4 @@
-import type { Name, NameDb, NameLengthCategory, NameGender } from '../../types/api-type';
+import type { Name, NameDb, NameLengthCategory, NameGender } from '../../types/names-type';
 
 function mapRawGenderToDb(value: unknown): NameGender {
   return value === 'boy' || value === 'girl' || value === 'neutral' ? value : 'neutral';
@@ -30,6 +30,7 @@ export function normalizeDbName(
     origin: typeof raw.origin === 'string' ? raw.origin : undefined,
     length: typeof raw.length === 'number' ? raw.length : 0,
     length_category: mapRawLengthCategoryToDb(raw.length_category),
+    usage_score: typeof raw.usage_score === 'number' ? raw.usage_score : undefined,
     spain_usage_rank: typeof raw.spain_usage_rank === 'number' ? raw.spain_usage_rank : undefined,
     created_at: raw.created_at,
   };
@@ -45,6 +46,7 @@ export function mapDbNameToDomain(id: string, dbModel: NameDb): Name {
     origin: dbModel.origin,
     length: dbModel.length,
     lengthCategory: dbModel.length_category,
+    usageScore: dbModel.usage_score,
     spainUsageRank: dbModel.spain_usage_rank,
     createdAt: mapRawCreatedAtToDate(dbModel.created_at),
   };

@@ -33,6 +33,16 @@ const AccountLayout = () => {
           >
             Favoritos ({favoritesCount})
           </NavLink>
+          <NavLink
+            to="couple"
+            className={({ isActive }) =>
+              isActive
+                ? 'block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white'
+                : 'block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+            }
+          >
+            Compartir
+          </NavLink>
         </nav>
       </aside>
 

@@ -13,10 +13,12 @@ export const AuthHeaderControls = () => {
   if (isAuthenticated) {
     return (
       <div className="flex items-center gap-4">
-        <span className="text-gray-600">{user?.email}</span>
+        <span className="text-sm text-gray-600">
+          Hola, <span className="font-medium text-gray-900">{user?.displayName ?? user?.email}</span>
+        </span>
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
+          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition text-sm"
         >
           Logout
         </button>

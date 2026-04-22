@@ -7,11 +7,14 @@ async function resolveFavoriteNames(nameIds: string[]): Promise<FavoriteName[]> 
   const favorites = await Promise.all(
     nameIds.map(async (nameId) => {
       const nameDoc = await getDoc(doc(db, 'names', nameId));
-      const resolvedName = nameDoc.exists() ? nameDoc.data()?.name : null;
+      const data = nameDoc.exists() ? nameDoc.data() : null;
 
       return {
         id: nameId,
-        name: typeof resolvedName === 'string' ? resolvedName : nameId,
+        name: typeof data?.name === 'string' ? data.name : nameId,
+        usageScore: typeof data?.usage_score === 'number' ? data.usage_score : undefined,
+        gender: data?.gender ?? undefined,
+        origin: typeof data?.origin === 'string' ? data.origin : undefined,
       };
     })
   );

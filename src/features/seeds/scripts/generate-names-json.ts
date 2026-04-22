@@ -27,6 +27,7 @@ function parseSheet(sheet: xlsx.WorkSheet, gender: 'boy' | 'girl'): NameSeed[] {
   return rows
     .slice(7)
     .filter(row => row[1])
+    .filter(row => !/[\s-]/.test(String(row[1])))
     .map(row => {
       const name: string = String(row[1]);
       const normalizedName = normalizeName(name);

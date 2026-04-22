@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import type { UserFavoritesDb } from '../../types/favorite-type';
 
 export type AddFavoriteDomainModel = {
@@ -27,6 +28,6 @@ export function mapDomainToDb(
     user_id: domain.userId,
     name_ids: domain.currentNameIds,
     shared_with: domain.currentSharedWith,
-    updated_at: new Date(),
+    updated_at: Timestamp.now(),
   };
 }

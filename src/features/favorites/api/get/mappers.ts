@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import type {
   FavoriteName,
   UserFavoritesDb,
@@ -8,7 +9,7 @@ export type GetFavoritesDbModel = {
   user_id: string;
   name_ids: string[];
   shared_with: string[];
-  updated_at: Date;
+  updated_at: Timestamp;
 };
 
 export type GetFavoritesDomainModel = UserFavorites;
@@ -26,10 +27,7 @@ export function mapRawDbToDbModel(
     ? raw.shared_with.filter((item): item is string => typeof item === 'string')
     : [];
 
-  const rawUpdatedAt = raw.updated_at as Date | { toDate?: () => Date } | undefined;
-
-  const updated_at =
-    rawUpdatedAt instanceof Date ? rawUpdatedAt : rawUpdatedAt?.toDate?.() || new Date();
+  const updated_at = raw.updated_at instanceof Timestamp ? raw.updated_at : Timestamp.now();
 
   return {
     user_id,
@@ -47,6 +45,6 @@ export function mapDbUserFavoritesToDomain(
     userId: dbModel.user_id,
     names: resolvedNames,
     sharedWith: dbModel.shared_with,
-    updatedAt: dbModel.updated_at,
+    updatedAt: dbModel.updated_at.toDate(),
   };
 }

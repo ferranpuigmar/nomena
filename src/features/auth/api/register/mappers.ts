@@ -1,4 +1,5 @@
 import type { User } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 import type { AuthUser, AuthUserDb } from '../../types/auth-type';
 
 export function mapDbUserToDomain(
@@ -16,7 +17,7 @@ export function mapDomainToDb(domain: AuthUser): AuthUserDb {
   return {
     email: domain.email,
     display_name: domain.displayName,
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: Timestamp.now(),
+    updated_at: Timestamp.now(),
   };
 }

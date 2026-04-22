@@ -1,4 +1,4 @@
-import type { Name } from '../../names/types/api-type';
+import type { Name } from '../../names/types/names-type';
 
 export type NameSeed = Name & {
   // Enrichment fields for seeding process only

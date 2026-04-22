@@ -11,6 +11,7 @@ export type NameDb = {
   origin?: string;
   length: number;
   length_category: NameLengthCategory;
+  usage_score?: number;
   spain_usage_rank?: number;
   created_at?: Timestamp;
 };
@@ -24,6 +25,7 @@ export type Name = {
   origin?: string;
   length: number;
   lengthCategory: NameLengthCategory;
+  usageScore?: number;
   spainUsageRank?: number;
   createdAt?: Date;
 };

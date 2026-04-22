@@ -17,6 +17,9 @@ export function SearchPage() {
               key={name.id}
               name={name.name}
               nameId={name.id}
+              gender={name.gender}
+              origin={name.origin}
+              usageScore={name.usageScore}
               isFavorited={isFavorited(name.id)}
               onToggleFavorite={toggleFavorite}
             />
