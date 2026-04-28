@@ -1,9 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, createElement } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 import { getFavorites, addFavorite as addFavoriteApi, removeFavorite as removeFavoriteApi } from '../api';
+import { FavoriteToastContent } from '../components/favorite-toast-content';
 import { useFavoritesStore } from '../store/favorites-store';
 
 const FAVORITES_QUERY_KEY = (userId: string) => ['favorites', userId];
+
+const FAVORITE_FALLBACK_NAME = 'este nombre';
+
+const getFavoriteToastContent = (isRemoving: boolean, favoriteName: string) => {
+  const action = isRemoving ? 'remove' : 'add';
+
+  return {
+    loading: createElement(FavoriteToastContent, {
+      action,
+      state: 'loading',
+      favoriteName,
+    }),
+    success: createElement(FavoriteToastContent, {
+      action,
+      state: 'success',
+      favoriteName,
+    }),
+  };
+};
 
 export const useFavoritesStoreSyncByUserId = (userId?: string) => {
   const { setFavorites, clearFavorites } = useFavoritesStore();
@@ -61,18 +82,25 @@ export const useFavoritesByUserId = (userId?: string) => {
     },
   });
 
-  const toggleFavorite = async (nameId: string) => {
+  const toggleFavorite = async (nameId: string, name?: string) => {
     if (!userId) {
-      console.error('User not authenticated');
+      toast.error('Debes iniciar sesion para gestionar favoritos');
       return;
     }
 
+    const wasFavorited = isFavorited(nameId);
+    const favoriteName = name?.trim() || FAVORITE_FALLBACK_NAME;
+    const toastContent = getFavoriteToastContent(wasFavorited, favoriteName);
+    const mutationPromise = wasFavorited
+      ? removeFavoriteMutation.mutateAsync(nameId)
+      : addFavoriteMutation.mutateAsync(nameId);
+
     try {
-      if (isFavorited(nameId)) {
-        await removeFavoriteMutation.mutateAsync(nameId);
-      } else {
-        await addFavoriteMutation.mutateAsync(nameId);
-      }
+      await toast.promise(mutationPromise, {
+        loading: toastContent.loading,
+        success: toastContent.success,
+        error: (error) => (error instanceof Error ? error.message : 'No se pudo actualizar favoritos'),
+      });
     } catch (error) {
       console.error('Error toggling favorite:', error);
       throw error;

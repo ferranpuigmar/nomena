@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { BaseLayout } from './shared/layouts/base-layout';
-import { HomePage } from './pages/public/home-page';
 import { SearchPage } from '../features/names/pages/search-page';
 import { NotFoundPage } from './pages/public/not-found-page';
 import { LoginPage } from './pages/public/login-page';
@@ -15,7 +14,7 @@ export const router = createBrowserRouter([
         path: '/',
         element: <BaseLayout />,
         children: [
-            { index: true, element: <HomePage /> },
+            { index: true, element: <Navigate to="/search" replace /> },
             { path: 'search', element: <SearchPage /> },
             {
                 path: 'account',

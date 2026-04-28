@@ -1,13 +1,14 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import type { DocumentSnapshot } from 'firebase/firestore';
 import { getNames } from '../api';
+import type { Filters } from '../types/names-type';
 
-export function useNames() {
+export function useNames(filters?: Filters) {
   const query = useInfiniteQuery({
-    queryKey: ['names'],
+    queryKey: ['names', filters],
     initialPageParam: null as DocumentSnapshot | null,
     queryFn: ({ pageParam }) =>
-      getNames({ cursor: pageParam ?? undefined }),
+      getNames({ cursor: pageParam ?? undefined, filters }),
     getNextPageParam: (lastPage) =>
       lastPage.hasMore ? lastPage.nextCursor : undefined,
   });

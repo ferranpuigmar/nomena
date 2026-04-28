@@ -21,14 +21,16 @@ interface NameCardProps {
   origin?: string
   usageScore?: number
   isFavorited?: boolean
-  onToggleFavorite?: (nameId: string) => Promise<void>
+  onToggleFavorite?: (nameId: string, name?: string) => Promise<void>
+  onClick?: () => void
 }
 
-const NameCard = ({ name, nameId, gender, origin, usageScore, isFavorited = false, onToggleFavorite }: NameCardProps) => {
-  const handleClick = async () => {
+const NameCard = ({ name, nameId, gender, origin, usageScore, isFavorited = false, onToggleFavorite, onClick }: NameCardProps) => {
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.stopPropagation()
     if (onToggleFavorite) {
       try {
-        await onToggleFavorite(nameId)
+        await onToggleFavorite(nameId, name)
       } catch (error) {
         console.error('Failed to toggle favorite:', error)
       }
@@ -36,10 +38,13 @@ const NameCard = ({ name, nameId, gender, origin, usageScore, isFavorited = fals
   }
 
   return (
-    <div className="relative p-4 border rounded shadow flex flex-col gap-2 items-start">
+    <div
+      className="relative p-4 border rounded shadow flex flex-col gap-2 items-start cursor-pointer hover:shadow-md transition-shadow"
+      onClick={onClick}
+    >
       {onToggleFavorite && (
         <button
-          onClick={handleClick}
+          onClick={handleFavoriteClick}
           className={`absolute top-2 right-2 text-xl leading-none ${isFavorited ? 'text-red-500' : 'text-gray-300 hover:text-red-400'}`}
           aria-label={isFavorited ? 'Quitar de favoritos' : 'Añadir a favoritos'}
         >

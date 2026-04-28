@@ -1,6 +1,6 @@
 import type { Timestamp } from 'firebase/firestore';
 
-export type NameGender = 'boy' | 'girl' | 'neutral';
+export type NameGender = 'boy' | 'girl' | 'unisex';
 export type NameLengthCategory = 'short' | 'long';
 
 export type NameDb = {
@@ -15,6 +15,17 @@ export type NameDb = {
   spain_usage_rank?: number;
   created_at?: Timestamp;
 };
+
+export type NumberRange = {
+  min: number;
+  max: number;
+}
+
+export type Filters = {
+  gender: NameGender[] | null;
+  usageScore: NumberRange | null;
+  length_category: NameLengthCategory[] | null;
+}
 
 export type Name = {
   id: string;

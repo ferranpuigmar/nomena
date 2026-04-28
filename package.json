@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "seed:run": "tsx",
+    "firebase:deploy:indexes": "cd .. && npx firebase-tools deploy --only firestore:indexes --project nomena-3177f",
     "seed:extract:names": "tsx src/features/seeds/scripts/extract-ine-names.ts",
     "seed:enrich:behindthename": "tsx --env-file=.env src/features/seeds/scripts/enrich-behindthename.ts",
     "seed:enrich:namedictionary": "tsx --env-file=.env src/features/seeds/scripts/enrich-behindthename.ts",
@@ -19,6 +19,7 @@
     "seed:migrate:users:display-name": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json tsx src/features/seeds/scripts/migrate-users-display-name.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.10",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.99.0",
     "@tanstack/react-query-devtools": "^5.99.0",
@@ -29,6 +30,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-hook-form": "^7.73.1",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.14.1",
     "xlsx": "^0.18.5",
     "zod": "^4.3.6",
