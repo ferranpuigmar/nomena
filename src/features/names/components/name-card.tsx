@@ -1,3 +1,3 @@
-import NameCard from '../../../app/shared/components/name-card/name-card'
+import NameCard from '@src/app/shared/components/name-card/name-card'
 
 export default NameCard

@@ -12,3 +12,26 @@ export type AuthUserDb = {
   created_at: Timestamp;
   updated_at: Timestamp;
 };
+
+export type ActionType = {
+  ADD_FAVORITE: 'ADD_FAVORITE',
+  ANY_ACTION: 'ANY_ACTION', // Placeholder for future actions
+};
+
+export type ActionTypeValue = ActionType[keyof ActionType];
+
+type ADD_FAVORITE_ACTION = {
+  type: ActionType['ADD_FAVORITE'];
+  payload: {
+    nameId: string;
+  };
+}
+
+type ANY_ACTION = {
+  type: ActionType['ANY_ACTION'];
+  payload: {
+    userId: string;
+  };
+}
+
+export type PendingAction = ADD_FAVORITE_ACTION | ANY_ACTION | null;

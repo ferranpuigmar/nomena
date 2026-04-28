@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuthStore } from '../../auth/store/auth-store';
+import { useAuthStore } from '@src/features/auth/store/auth-store';
 import { useCouple } from '../hooks/use-couple';
 
 export function CouplePage() {

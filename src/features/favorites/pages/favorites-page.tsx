@@ -1,7 +1,7 @@
-import { useAuthStore } from '../../auth/store/auth-store'
+import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { useFavoritesByUserId } from '../hooks/use-favorites'
-import { useCouple } from '../../couple/hooks/use-couple'
-import NameCard from '../../../app/shared/components/name-card/name-card'
+import { useCouple } from '@src/features/couple/hooks/use-couple'
+import NameCard from '@src/app/shared/components/name-card/name-card'
 
 export function FavoritesPage() {
   const userId = useAuthStore((state) => state.user?.uid)

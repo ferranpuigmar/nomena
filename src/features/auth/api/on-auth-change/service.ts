@@ -1,7 +1,7 @@
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../../../lib/firebase';
-import type { AuthUser, AuthUserDb } from '../../types/auth-type';
+import { auth, db } from '@src/lib/firebase';
+import type { AuthUser, AuthUserDb } from '@src/features/auth/types/auth-type';
 import { mapDbUserToDomain, readDisplayNameFromUserDb } from './mappers';
 
 export function onAuthChange(callback: (user: AuthUser | null) => void): () => void {

@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { FavoriteName, UserFavorites, UserFavoritesDb } from '../../types/favorite-type';
+import { db } from '@src/lib/firebase';
+import type { FavoriteName, UserFavorites, UserFavoritesDb } from '@src/features/favorites/types/favorite-type';
 import { mapDbUserFavoritesToDomain, mapRawDbToDbModel } from './mappers';
 
 async function resolveFavoriteNames(nameIds: string[]): Promise<FavoriteName[]> {

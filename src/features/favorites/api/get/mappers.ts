@@ -3,7 +3,7 @@ import type {
   FavoriteName,
   UserFavoritesDb,
   UserFavorites,
-} from '../../types/favorite-type';
+} from '@src/features/favorites/types/favorite-type';
 
 export type GetFavoritesDbModel = {
   user_id: string;

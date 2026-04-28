@@ -1,6 +1,6 @@
 
-import { adminDb } from '../../../../lib/firebase-admin';
-import type { NameSeed } from '../../types/seed-type';
+import { adminDb } from '@src/lib/firebase-admin';
+import type { NameSeed } from '@src/features/seeds/types/seed-type';
 
 const BATCH_SIZE = 500;
 

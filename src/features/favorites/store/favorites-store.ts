@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { UserFavorites } from '../types/favorite-type';
+import { withDevtools } from '@src/lib/zustand.ts';
 
 export interface FavoritesState {
   favorites: UserFavorites | null;
@@ -8,16 +9,18 @@ export interface FavoritesState {
   isFavorited: (nameId: string) => boolean;
 }
 
-export const useFavoritesStore = create<FavoritesState>((set, get) => ({
-  favorites: null,
-  setFavorites: (favorites) => set({ favorites }),
-  clearFavorites: () => set({ favorites: null }),
+export const useFavoritesStore = create<FavoritesState>()(
+  withDevtools('favorites-store', (set, get) => ({
+    favorites: null,
+    setFavorites: (favorites) => set({ favorites }),
+    clearFavorites: () => set({ favorites: null }),
 
-  isFavorited: (nameId: string) => {
-    const { favorites } = get();
-    return favorites?.names.some((item) => item.id === nameId) ?? false;
-  },
-}));
+    isFavorited: (nameId: string) => {
+      const { favorites } = get();
+      return favorites?.names.some((item) => item.id === nameId) ?? false;
+    },
+  })),
+);
 
 // Selectores para UI
 export const selectedFavorites = (state: FavoritesState) => state.favorites;

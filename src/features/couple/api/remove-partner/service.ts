@@ -1,5 +1,5 @@
 import { doc, getDoc, writeBatch, arrayRemove } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
+import { db } from '@src/lib/firebase';
 
 export async function removePartner(userId: string, partnerUserId: string): Promise<void> {
   const userFavRef = doc(db, 'userFavorites', userId);

@@ -1,10 +1,11 @@
-import { useState } from 'react'
 import NameCard from '../components/name-card'
 import { NameDetailDrawer } from '../components/name-detail-drawer'
+import { useNameDetailNavigation } from '../hooks/use-name-detail-navigation.ts'
+import { usePendingFavoriteAction } from '../hooks/use-pending-favorite-action'
 import { useNames } from '../hooks/use-names'
 import { useNameFilters } from '../hooks/use-name-filters'
-import { useAuthStore } from '../../auth/store/auth-store'
-import { useFavoritesByUserId } from '../../favorites/hooks/use-favorites'
+import { useAuthStore } from '@src/features/auth/store/auth-store'
+import { useFavoritesByUserId } from '@src/features/favorites/hooks/use-favorites'
 import type { NameGender } from '../types/names-type'
 
 const GENDER_OPTIONS: { value: NameGender; label: string }[] = [
@@ -19,21 +20,18 @@ export function SearchPage() {
 
   const { data, isLoading, error, fetchNextPage } = useNames(filters)
   const { toggleFavorite, isFavorited } = useFavoritesByUserId(userId)
-
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  usePendingFavoriteAction(userId, toggleFavorite)
 
   const allNames = data?.pages?.flatMap((page) => page.items) ?? []
-  const selectedName = selectedIndex !== null ? allNames[selectedIndex] ?? null : null
-  const hasPrevPageClick = selectedIndex !== null && selectedIndex > 0;
-  const hasNextPageClick = selectedIndex !== null && selectedIndex < allNames.length - 1;
-
-  const handleDrawerNavigation = (direction: 'prev' | 'next') => {
-    if (selectedIndex === null) return
-    const newIndex = direction === 'prev' ? selectedIndex - 1 : selectedIndex + 1
-    if (newIndex >= 0 && newIndex < allNames.length) {
-      setSelectedIndex(newIndex)
-    }
-  }
+  const {
+    selectedIndex,
+    selectedName,
+    hasPrevPageClick,
+    hasNextPageClick,
+    openNameDetail,
+    closeNameDetail,
+    handleDrawerNavigation,
+  } = useNameDetailNavigation(allNames)
 
   return (
     <section>
@@ -62,7 +60,7 @@ export function SearchPage() {
             usageScore={name.usageScore}
             isFavorited={isFavorited(name.id)}
             onToggleFavorite={toggleFavorite}
-            onClick={() => setSelectedIndex(index)}
+            onClick={() => openNameDetail(index)}
           />
         ))}
       </div>
@@ -76,7 +74,7 @@ export function SearchPage() {
       <NameDetailDrawer
         name={selectedName}
         isOpen={selectedIndex !== null}
-        onClose={() => setSelectedIndex(null)}
+        onClose={closeNameDetail}
         onPrev={hasPrevPageClick ? () => handleDrawerNavigation('prev') : undefined}
         onNext={hasNextPageClick ? () => handleDrawerNavigation('next') : undefined}
       />

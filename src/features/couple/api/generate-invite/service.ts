@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { InviteCodeDb } from '../../types/couple-type';
+import { db } from '@src/lib/firebase';
+import type { InviteCodeDb } from '@src/features/couple/types/couple-type';
 
 export async function generateInvite(userId: string): Promise<string> {
   const code = nanoid(21);

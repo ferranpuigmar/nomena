@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import type { NameGender } from '../../names/types/names-type';
+import type { NameGender } from '@src/features/names/types/names-type';
 
 export type FavoriteName = {
   id: string;

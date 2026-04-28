@@ -1,12 +1,12 @@
 import Header from '../components/header/header'
 import { Outlet } from 'react-router-dom'
-import { useAuthStore } from '../../../features/auth/store/auth-store'
-import { AuthHeaderControls } from '../../../features/auth/components/auth-header-controls'
-import { NAMES_NAV_ITEMS } from '../../../features/names/navigation/names-nav-items'
-import { getFavoritesNavItems } from '../../../features/favorites/navigation/favorites-nav-items'
-import { selectedFavoritesCount, useFavoritesStore } from '../../../features/favorites/store/favorites-store'
-import { useFavoritesStoreSyncByUserId } from '../../../features/favorites/hooks/use-favorites'
-import { ACCOUNT_NAV_ITEMS } from '../../../features/account/navigation/account-nav-items'
+import { useAuthStore } from '@src/features/auth/store/auth-store'
+import { AuthHeaderControls } from '@src/features/auth/components/auth-header-controls'
+import { NAMES_NAV_ITEMS } from '@src/features/names/navigation/names-nav-items'
+import { getFavoritesNavItems } from '@src/features/favorites/navigation/favorites-nav-items'
+import { selectedFavoritesCount, useFavoritesStore } from '@src/features/favorites/store/favorites-store'
+import { useFavoritesStoreSyncByUserId } from '@src/features/favorites/hooks/use-favorites'
+import { ACCOUNT_NAV_ITEMS } from '@src/features/account/navigation/account-nav-items'
 
 export const BaseLayout = () => {
   const isAuthReady = useAuthStore((state) => state.isAuthReady)

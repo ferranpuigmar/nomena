@@ -1,6 +1,6 @@
 import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { UserFavorites, FavoriteName } from '../../../favorites/types/favorite-type';
+import { db } from '@src/lib/firebase';
+import type { UserFavorites, FavoriteName } from '@src/features/favorites/types/favorite-type';
 
 async function resolveFavoriteNames(nameIds: string[]): Promise<FavoriteName[]> {
   return Promise.all(

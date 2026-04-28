@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { withDevtools } from '@src/lib/zustand.ts';
 
 export interface CoupleState {
   generatedCode: string | null;
@@ -6,8 +7,10 @@ export interface CoupleState {
   clearCouple: () => void;
 }
 
-export const useCoupleStore = create<CoupleState>((set) => ({
-  generatedCode: null,
-  setGeneratedCode: (generatedCode) => set({ generatedCode }),
-  clearCouple: () => set({ generatedCode: null }),
-}));
+export const useCoupleStore = create<CoupleState>()(
+  withDevtools('couple-store', (set) => ({
+    generatedCode: null,
+    setGeneratedCode: (generatedCode) => set({ generatedCode }),
+    clearCouple: () => set({ generatedCode: null }),
+  })),
+);

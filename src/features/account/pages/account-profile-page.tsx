@@ -1,4 +1,4 @@
-import { useAuthStore } from '../../auth/store/auth-store'
+import { useAuthStore } from '@src/features/auth/store/auth-store'
 
 export const AccountProfilePage = () => {
   const user = useAuthStore((state) => state.user)

@@ -9,9 +9,9 @@ import {
   arrayUnion,
   Timestamp,
 } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { InviteCodeDb } from '../../types/couple-type';
-import { INVITE_CODE_TTL_MS } from '../../types/couple-type';
+import { db } from '@src/lib/firebase';
+import type { InviteCodeDb } from '@src/features/couple/types/couple-type';
+import { INVITE_CODE_TTL_MS } from '@src/features/couple/types/couple-type';
 
 export async function redeemInvite(redeemerUserId: string, code: string): Promise<void> {
   // 1. Find invite code document

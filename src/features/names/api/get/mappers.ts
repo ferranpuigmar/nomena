@@ -1,4 +1,4 @@
-import type { Name, NameDb, NameLengthCategory, NameGender } from '../../types/names-type';
+import type { Name, NameDb, NameLengthCategory, NameGender } from '@src/features/names/types/names-type';
 
 function mapRawGenderToDb(value: unknown): NameGender {
   return value === 'boy' || value === 'girl' || value === 'neutral' ? value : 'neutral';

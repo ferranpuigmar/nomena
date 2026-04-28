@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { UserFavoritesDb } from '../../types/favorite-type';
+import { db } from '@src/lib/firebase';
+import type { UserFavoritesDb } from '@src/features/favorites/types/favorite-type';
 import { mapDbUserFavoritesToDomain, mapDomainToDb } from './mappers';
 
 export async function addFavorite(userId: string, nameId: string): Promise<void> {

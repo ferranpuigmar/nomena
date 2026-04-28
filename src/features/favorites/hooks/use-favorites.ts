@@ -4,6 +4,8 @@ import { toast } from 'react-hot-toast';
 import { getFavorites, addFavorite as addFavoriteApi, removeFavorite as removeFavoriteApi } from '../api';
 import { FavoriteToastContent } from '../components/favorite-toast-content';
 import { useFavoritesStore } from '../store/favorites-store';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@src/features/auth/store/auth-store';
 
 const FAVORITES_QUERY_KEY = (userId: string) => ['favorites', userId];
 
@@ -51,6 +53,11 @@ export const useFavoritesByUserId = (userId?: string) => {
   const queryClient = useQueryClient();
   const { favorites, isFavorited } = useFavoritesStore();
   const { isLoading } = useFavoritesStoreSyncByUserId(userId);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const setPendingAction = useAuthStore((state) => state.setPendingAction);
+
+
 
   const addFavoriteMutation = useMutation({
     mutationFn: (nameId: string) => {
@@ -83,8 +90,20 @@ export const useFavoritesByUserId = (userId?: string) => {
   });
 
   const toggleFavorite = async (nameId: string, name?: string) => {
+    console.log('Toggling favorite for userId:', userId);
     if (!userId) {
-      toast.error('Debes iniciar sesion para gestionar favoritos');
+      console.log('User not authenticated. Redirecting to login page.');
+      
+      navigate('/login', {
+        state: {
+          from: location,
+        }
+      });
+      setPendingAction({
+        type: 'ADD_FAVORITE',
+        payload: { nameId },
+      });
+
       return;
     }
 
@@ -114,3 +133,4 @@ export const useFavoritesByUserId = (userId?: string) => {
     isLoading,
   };
 };
+

@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../../../lib/firebase';
-import type { AuthUser } from '../../types/auth-type';
+import { auth, db } from '@src/lib/firebase';
+import type { AuthUser } from '@src/features/auth/types/auth-type';
 import { mapDbUserToDomain, mapDomainToDb } from './mappers';
 
 export async function registerUser(

@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { registerUser, loginUser, signOut, onAuthChange, type AuthUser } from '../api';
+import type { PendingAction } from '../types/auth-type';
+import { withDevtools } from '@src/lib/zustand.ts';
 
 let authUnsubscribe: (() => void) | null = null;
 
@@ -8,6 +10,7 @@ export interface AuthState {
   isAuthReady: boolean;
   isLoading: boolean;
   isAuthenticated: boolean;
+  pendingAction: PendingAction | null;
   register: (email: string, password: string, displayName: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -15,14 +18,17 @@ export interface AuthState {
   setIsLoading: (loading: boolean) => void;
   initializeAuth: () => void;
   cleanupAuthListener: () => void;
+  setPendingAction: (action: PendingAction | null) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => {
-  return {
+export const useAuthStore = create<AuthState>()(
+  withDevtools('auth-store', (set) => {
+    return {
     user: null,
     isAuthReady: false,
     isLoading: false,
     isAuthenticated: false,
+    pendingAction: null,
 
     register: async (email: string, password: string, displayName: string) => {
       set({ isLoading: true });
@@ -50,7 +56,7 @@ export const useAuthStore = create<AuthState>((set) => {
       set({ isLoading: true });
       try {
         await signOut();
-        set({ user: null, isAuthenticated: false, isLoading: false });
+        set({ user: null, isAuthenticated: false, isLoading: false, pendingAction: null });
       } catch (error) {
         set({ isLoading: false });
         throw error;
@@ -63,6 +69,10 @@ export const useAuthStore = create<AuthState>((set) => {
 
     setIsLoading: (loading) => {
       set({ isLoading: loading });
+    },
+
+    setPendingAction: (action: PendingAction | null) => {
+      set({ pendingAction: action });
     },
 
     initializeAuth: () => {
@@ -89,5 +99,6 @@ export const useAuthStore = create<AuthState>((set) => {
       authUnsubscribe();
       authUnsubscribe = null;
     },
-  };
-});
+    };
+  }),
+);

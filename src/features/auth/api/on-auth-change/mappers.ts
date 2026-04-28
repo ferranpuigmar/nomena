@@ -1,5 +1,5 @@
 import type { User } from 'firebase/auth';
-import type { AuthUser, AuthUserDb } from '../../types/auth-type';
+import type { AuthUser, AuthUserDb } from '@src/features/auth/types/auth-type';
 
 export function mapDbUserToDomain(
   user: User,

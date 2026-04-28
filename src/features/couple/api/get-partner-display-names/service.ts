@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import type { AuthUserDb } from '../../../auth/types/auth-type';
+import { db } from '@src/lib/firebase';
+import type { AuthUserDb } from '@src/features/auth/types/auth-type';
 
 export async function getPartnerDisplayNames(
   userIds: string[]

@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import type { UserFavoritesDb } from '../../types/favorite-type';
+import type { UserFavoritesDb } from '@src/features/favorites/types/favorite-type';
 
 export type RemoveFavoriteDomainModel = {
   userId: string;
