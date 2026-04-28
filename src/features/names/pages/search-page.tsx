@@ -1,18 +1,12 @@
 import NameCard from '../components/name-card'
 import { NameDetailDrawer } from '../components/name-detail-drawer'
+import { GenderFilters } from '../components/gender-filters'
 import { useNameDetailNavigation } from '../hooks/use-name-detail-navigation.ts'
 import { usePendingFavoriteAction } from '../hooks/use-pending-favorite-action'
 import { useNames } from '../hooks/use-names'
 import { useNameFilters } from '../hooks/use-name-filters'
 import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { useFavoritesByUserId } from '@src/features/favorites/hooks/use-favorites'
-import type { NameGender } from '../types/names-type'
-
-const GENDER_OPTIONS: { value: NameGender; label: string }[] = [
-  { value: 'boy', label: 'Niño' },
-  { value: 'girl', label: 'Niña' },
-  { value: 'unisex', label: 'Neutro' },
-]
 
 export function SearchPage() {
   const userId = useAuthStore((state) => state.user?.uid)
@@ -35,19 +29,7 @@ export function SearchPage() {
 
   return (
     <section>
-      <div className="flex gap-4 mb-4">
-        {GENDER_OPTIONS.map(({ value, label }) => (
-          <label key={value} className="flex items-center gap-1.5 cursor-pointer select-none text-sm">
-            <input
-              type="checkbox"
-              checked={selectedGenders.includes(value)}
-              onChange={() => toggleGender(value)}
-              className="rounded border-gray-300"
-            />
-            {label}
-          </label>
-        ))}
-      </div>
+      <GenderFilters selectedGenders={selectedGenders} onToggleGender={toggleGender} />
 
       <div className="grid grid-cols-6 gap-4">
         {allNames.map((name, index) => (
