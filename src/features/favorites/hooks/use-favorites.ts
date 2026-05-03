@@ -90,7 +90,7 @@ export const useFavoritesByUserId = (userId?: string) => {
     },
   });
 
-  const toggleFavorite = async (nameId: string, name?: string) => {
+  const toggleFavorite = async (nameId: string, name: string) => {
     if (!userId) {
       console.log('User not authenticated. Redirecting to login page.');
       

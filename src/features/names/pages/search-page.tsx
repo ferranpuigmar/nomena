@@ -50,7 +50,7 @@ export function SearchPage() {
             origin={name.origin}
             usageScore={name.usageScore}
             isFavorited={isFavorited(name.id)}
-            onToggleFavorite={toggleFavorite}
+            onToggleFavorite={() => toggleFavorite(name.id, name.name)}
             onClick={() => openNameDetail(index)}
           />
         ))}
@@ -69,7 +69,7 @@ export function SearchPage() {
         onPrev={hasPrevPageClick ? () => handleDrawerNavigation('prev') : undefined}
         onNext={hasNextPageClick ? () => handleDrawerNavigation('next') : undefined}
         isFavorited={selectedName ? isFavorited(selectedName.id) : false}
-        onToggleFavorite={toggleFavorite}
+        onToggleFavorite={() => selectedName ? toggleFavorite(selectedName.id, selectedName.name) : Promise.resolve()}
       />
     </section>
   )

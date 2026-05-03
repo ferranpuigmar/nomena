@@ -15,7 +15,6 @@ export type AuthUserDb = {
 
 export type ActionType = {
   ADD_FAVORITE: 'ADD_FAVORITE',
-  ANY_ACTION: 'ANY_ACTION', // Placeholder for future actions
 };
 
 export type ActionTypeValue = ActionType[keyof ActionType];

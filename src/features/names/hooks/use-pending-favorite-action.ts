@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { ROUTES } from '@src/app/router'
 
-type ToggleFavorite = (nameId: string, name?: string) => Promise<void>
+type ToggleFavorite = (nameId: string, name: string) => Promise<void>
 
 export function usePendingFavoriteAction(userId: string | undefined, toggleFavorite: ToggleFavorite) {
   const pendingAction = useAuthStore((state) => state.pendingAction)
