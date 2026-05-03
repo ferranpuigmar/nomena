@@ -12,6 +12,7 @@ import {
 import { db } from '@src/lib/firebase';
 import type { Filters, Name, NameDb } from '@src/features/names/types/names-type';
 import { mapDbNameToDomain, normalizeDbName } from './mappers';
+import { normalizeName } from '@src/app/shared/utils/normalizeName';
 
 type GetNamesParams = {
   pageSize?: number;
@@ -44,11 +45,13 @@ export async function getNames({
     if (filters.length_category && filters.length_category.length > 0) {
       contraints.push(where('length_category', 'in', filters.length_category))
     }
+
+    const namePrefix = filters.query?.trim()
+    if (namePrefix) {
+      contraints.push(where('normalized_name', '>=', normalizeName(namePrefix)))
+      contraints.push(where('normalized_name', '<=', normalizeName(namePrefix) + '\uf8ff'))
+    }
   }
-
-  console.log('Fetching names with constraints:', contraints, 'and cursor:', cursor?.id);
-
-
 
   const q = cursor
     ? query(

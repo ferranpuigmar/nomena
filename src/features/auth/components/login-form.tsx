@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from '../store/auth-store';
 import { loginSchema, type LoginFormData } from '../schemas/auth-schemas';
+import { ROUTES } from '@src/app/router';
 
 export function LoginForm() {
   const { login } = useAuthStore();
@@ -78,7 +79,7 @@ export function LoginForm() {
         <div className="mt-6 text-center">
           <p className="text-gray-600 text-sm">
             Don't have an account?{' '}
-            <Link to="/register" className="text-purple-600 hover:text-purple-700 font-medium">
+            <Link to={ROUTES.register.path} className="text-purple-600 hover:text-purple-700 font-medium">
               Sign Up
             </Link>
           </p>

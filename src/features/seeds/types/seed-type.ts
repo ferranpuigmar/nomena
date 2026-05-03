@@ -10,5 +10,5 @@ export type NameSeed = Name & {
   genderSource?: string;
   isUnisex?: boolean;
   meaning?: string;
-  origin?: string;
+  origin?: string[];
 };

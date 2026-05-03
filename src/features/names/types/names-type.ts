@@ -8,7 +8,7 @@ export type NameDb = {
   normalized_name: string;
   gender: NameGender;
   meaning?: string;
-  origin?: string;
+  origin?: string[];
   length: number;
   length_category: NameLengthCategory;
   usage_score?: number;
@@ -25,6 +25,7 @@ export type Filters = {
   gender: NameGender[] | null;
   usageScore: NumberRange | null;
   length_category: NameLengthCategory[] | null;
+  query?: string;
 }
 
 export type Name = {
@@ -33,7 +34,7 @@ export type Name = {
   normalizedName: string;
   gender: NameGender;
   meaning?: string;
-  origin?: string;
+  origin?: string[];
   length: number;
   lengthCategory: NameLengthCategory;
   usageScore?: number;

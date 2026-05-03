@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuthStore } from '@src/features/auth/store/auth-store'
+import { ROUTES } from '@src/app/router'
 
 type ToggleFavorite = (nameId: string, name?: string) => Promise<void>
 
@@ -11,11 +12,12 @@ export function usePendingFavoriteAction(userId: string | undefined, toggleFavor
   const consumedPendingActionRef = useRef<string | null>(null)
 
   useEffect(() => {
-    if (location.state?.from?.pathname !== '/login' || !userId || pendingAction?.type !== 'ADD_FAVORITE') {
+    if (location.state?.from?.pathname !== ROUTES.login.path || !userId || pendingAction?.type !== 'ADD_FAVORITE') {
       return
     }
 
     const pendingNameId = pendingAction.payload.nameId
+    const pendingName = pendingAction.payload.name
     const pendingActionKey = `${location.key}:${pendingNameId}`
 
     if (consumedPendingActionRef.current === pendingActionKey) {
@@ -25,6 +27,6 @@ export function usePendingFavoriteAction(userId: string | undefined, toggleFavor
     consumedPendingActionRef.current = pendingActionKey
 
     setPendingAction(null)
-    void toggleFavorite(pendingNameId)
+    void toggleFavorite(pendingNameId, pendingName)
   }, [userId, location.key, location.state, pendingAction, setPendingAction, toggleFavorite])
 }

@@ -1,5 +1,4 @@
-import { NavLink } from "react-router-dom";
-import { cn } from "@src/lib/cn";
+import { Button } from "../button/button";
 
 export type MenuItem = {
 	to: string;
@@ -14,23 +13,18 @@ type MenuProps = {
 
 const Menu = ({ items }: MenuProps) => {
 	return (
-		<nav className="flex items-center gap-6">
+		<nav className="flex items-center">
 			{items.map((item) => (
-				<NavLink
+				<Button
 					key={item.to}
 					to={item.to}
 					end={item.exact}
-					className={({ isActive }) =>
-						cn(
-							"text-sm font-medium text-gray-600 hover:text-gray-900",
-							isActive &&
-								!item.disableActiveStyle &&
-								"font-bold text-gray-900 border-b-2 border-gray-900",
-						)
-					}
+					variant="link"
+					size="md"
+					activeVariant={!item.disableActiveStyle ? "link-accent" : undefined}
 				>
 					{item.label}
-				</NavLink>
+				</Button>
 			))}
 		</nav>
 	);

@@ -4,13 +4,15 @@ import {
 	DialogPanel,
 	DialogTitle,
 } from "@headlessui/react";
+import React from "react";
 import type { Name, NameGender } from "../types/names-type";
 import { cn } from "@src/lib/cn";
+import { Button } from "@src/app/shared/components/button/button";
 
 const GENDER_LABEL: Record<NameGender, string> = {
 	boy: "Niño",
 	girl: "Niña",
-	neutral: "Neutro",
+	unisex: "Neutro",
 };
 
 const MAX_USAGE_SCORE = 603004;
@@ -26,6 +28,8 @@ interface NameDetailDrawerProps {
 	onClose: () => void;
 	onPrev?: () => void;
 	onNext?: () => void;
+	isFavorited?: boolean;
+	onToggleFavorite?: (nameId: string, name?: string) => Promise<void>;
 }
 
 export function NameDetailDrawer({
@@ -34,7 +38,26 @@ export function NameDetailDrawer({
 	onClose,
 	onPrev,
 	onNext,
+	isFavorited = false,
+	onToggleFavorite,
 }: NameDetailDrawerProps) {
+	const [isFavoriteLoading, setIsFavoriteLoading] = React.useState(false);
+
+	const handleFavoriteClick = async () => {
+		if (!name || !onToggleFavorite || isFavoriteLoading) {
+			return;
+		}
+
+		setIsFavoriteLoading(true);
+		try {
+			await onToggleFavorite(name.id, name.name);
+		} catch (error) {
+			console.error("Failed to toggle favorite:", error);
+		} finally {
+			setIsFavoriteLoading(false);
+		}
+	};
+
 	return (
 		<Dialog open={isOpen} onClose={onClose} className="relative z-50">
 			{/* Backdrop */}
@@ -127,11 +150,11 @@ export function NameDetailDrawer({
 													{GENDER_LABEL[name.gender]}
 												</span>
 											)}
-											{name.origin && (
-												<span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
-													{name.origin}
+											{name.origin && name.origin.length > 0 && name.origin.map((o, i) => (
+												<span key={i} className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
+													{o}
 												</span>
-											)}
+											))}
 										</div>
 
 										{/* Meaning */}
@@ -193,6 +216,19 @@ export function NameDetailDrawer({
 												{name.lengthCategory === "short" ? "Corto" : "Largo"}
 											</p>
 										</div>
+
+										{onToggleFavorite && (
+											<div className="pt-2">
+												<Button
+													variant={isFavorited ? "danger" : "default"}
+													onClick={handleFavoriteClick}
+													disabled={isFavoriteLoading}
+													className="w-full"
+												>
+													{isFavorited ? "Quitar de favoritos" : "Añadir a favoritos"}
+												</Button>
+											</div>
+										)}
 									</div>
 								)}
 							</div>

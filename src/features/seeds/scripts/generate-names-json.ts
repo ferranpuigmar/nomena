@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import { randomUUID } from 'crypto';
 import xlsx from 'xlsx';
 import type { NameSeed } from '../types/seed-type';
-import { normalizeName } from '../utils/name-utils';
+import { normalizeName } from '@src/app/shared/utils/normalizeName';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

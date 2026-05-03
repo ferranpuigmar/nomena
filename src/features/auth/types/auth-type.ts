@@ -24,14 +24,8 @@ type ADD_FAVORITE_ACTION = {
   type: ActionType['ADD_FAVORITE'];
   payload: {
     nameId: string;
+    name: string;
   };
 }
 
-type ANY_ACTION = {
-  type: ActionType['ANY_ACTION'];
-  payload: {
-    userId: string;
-  };
-}
-
-export type PendingAction = ADD_FAVORITE_ACTION | ANY_ACTION | null;
+export type PendingAction = ADD_FAVORITE_ACTION | null;

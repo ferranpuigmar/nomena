@@ -1,5 +1,7 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/auth-store'
+import { Button } from '@src/app/shared/components/button/button'
+import { ROUTES } from '@src/app/router'
 
 export const AuthHeaderControls = () => {
   const { user, isAuthenticated, logout } = useAuthStore()
@@ -7,7 +9,7 @@ export const AuthHeaderControls = () => {
 
   const handleLogout = async () => {
     await logout()
-    navigate('/')
+    navigate(ROUTES.home.path)
   }
 
   if (isAuthenticated) {
@@ -16,22 +18,10 @@ export const AuthHeaderControls = () => {
         <span className="text-sm text-gray-600">
           Hola, <span className="font-medium text-gray-900">{user?.displayName ?? user?.email}</span>
         </span>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition text-sm"
-        >
-          Logout
-        </button>
+        <Button variant="danger" onClick={handleLogout}>Logout</Button>
       </div>
     )
   }
 
-  return (
-    <NavLink
-      to="/login"
-      className="px-4 py-2 rounded-lg bg-purple-600 text-white transition hover:bg-purple-700"
-    >
-      Login
-    </NavLink>
-  )
+  return <Button to={ROUTES.login.path}>Login</Button>
 }

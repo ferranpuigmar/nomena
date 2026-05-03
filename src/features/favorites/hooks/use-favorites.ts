@@ -6,6 +6,7 @@ import { FavoriteToastContent } from '../components/favorite-toast-content';
 import { useFavoritesStore } from '../store/favorites-store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@src/features/auth/store/auth-store';
+import { ROUTES } from '@src/app/router';
 
 const FAVORITES_QUERY_KEY = (userId: string) => ['favorites', userId];
 
@@ -90,18 +91,17 @@ export const useFavoritesByUserId = (userId?: string) => {
   });
 
   const toggleFavorite = async (nameId: string, name?: string) => {
-    console.log('Toggling favorite for userId:', userId);
     if (!userId) {
       console.log('User not authenticated. Redirecting to login page.');
       
-      navigate('/login', {
+      navigate(ROUTES.login.path, {
         state: {
           from: location,
         }
       });
       setPendingAction({
         type: 'ADD_FAVORITE',
-        payload: { nameId },
+        payload: { nameId, name },
       });
 
       return;

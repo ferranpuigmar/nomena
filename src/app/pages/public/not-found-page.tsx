@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '@src/app/router';
 
 export function NotFoundPage() {
   return (
@@ -6,7 +7,7 @@ export function NotFoundPage() {
       <h2 className="mb-3 text-2xl font-semibold text-gray-900">Page not found</h2>
       <p className="mb-6 text-gray-600">The route you requested does not exist.</p>
       <Link
-        to="/"
+        to={ROUTES.home.path}
         className="inline-flex rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition hover:bg-purple-700"
       >
         Go home

@@ -7,12 +7,15 @@ import { useNames } from '../hooks/use-names'
 import { useNameFilters } from '../hooks/use-name-filters'
 import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { useFavoritesByUserId } from '@src/features/favorites/hooks/use-favorites'
+import { useInitialLetters } from '../hooks/use-initial-letters.ts'
+import QueryFilter from '../components/query-filter.tsx'
 
 export function SearchPage() {
   const userId = useAuthStore((state) => state.user?.uid)
-  const { selectedGenders, filters, toggleGender } = useNameFilters()
+  const { selectedGenders, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery } = useNameFilters()
 
   const { data, isLoading, error, fetchNextPage } = useNames(filters)
+  const { letters } = useInitialLetters()
   const { toggleFavorite, isFavorited } = useFavoritesByUserId(userId)
   usePendingFavoriteAction(userId, toggleFavorite)
 
@@ -27,9 +30,15 @@ export function SearchPage() {
     handleDrawerNavigation,
   } = useNameDetailNavigation(allNames)
 
+  const handleQueryLetter = (letter: string) => {
+    setSearchQuery(letter)
+    cancelDebounceQuery()
+  }
+
   return (
     <section>
       <GenderFilters selectedGenders={selectedGenders} onToggleGender={toggleGender} />
+      <QueryFilter handleQueryInput={handleDebounceQuery} handleQueryLetter={handleQueryLetter} letters={letters} />
 
       <div className="grid grid-cols-6 gap-4">
         {allNames.map((name, index) => (
@@ -59,6 +68,8 @@ export function SearchPage() {
         onClose={closeNameDetail}
         onPrev={hasPrevPageClick ? () => handleDrawerNavigation('prev') : undefined}
         onNext={hasNextPageClick ? () => handleDrawerNavigation('next') : undefined}
+        isFavorited={selectedName ? isFavorited(selectedName.id) : false}
+        onToggleFavorite={toggleFavorite}
       />
     </section>
   )

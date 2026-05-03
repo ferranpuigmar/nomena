@@ -27,7 +27,7 @@ export function normalizeDbName(
     normalized_name: typeof raw.normalized_name === 'string' ? raw.normalized_name : '',
     gender: mapRawGenderToDb(raw.gender),
     meaning: typeof raw.meaning === 'string' ? raw.meaning : undefined,
-    origin: typeof raw.origin === 'string' ? raw.origin : undefined,
+    origin: Array.isArray(raw.origin) ? raw.origin : typeof raw.origin === 'string' && raw.origin ? [raw.origin] : undefined,
     length: typeof raw.length === 'number' ? raw.length : 0,
     length_category: mapRawLengthCategoryToDb(raw.length_category),
     usage_score: typeof raw.usage_score === 'number' ? raw.usage_score : undefined,

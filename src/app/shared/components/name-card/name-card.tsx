@@ -20,7 +20,7 @@ interface NameCardProps {
 	name: string;
 	nameId: string;
 	gender?: NameGender;
-	origin?: string;
+	origin?: string[];
 	usageScore?: number;
 	isFavorited?: boolean;
 	onToggleFavorite?: (nameId: string, name?: string) => Promise<void>;
@@ -78,8 +78,8 @@ const NameCard = ({
 			</div>
 			<div className="flex gap-2 text-xs text-gray-500">
 				{gender && <span>{GENDER_LABEL[gender]}</span>}
-				{gender && origin && <span>·</span>}
-				{origin && <span>{origin}</span>}
+				{gender && origin && origin.length > 0 && <span>·</span>}
+				{origin && origin.length > 0 && <span>{origin.join(', ')}</span>}
 			</div>
 			{usageScore != null && (
 				<div className="flex flex-col gap-0.5">
