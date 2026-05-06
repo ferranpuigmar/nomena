@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { registerUser, loginUser, signOut, onAuthChange, type AuthUser } from '../api';
+import { registerUser, loginUser, signOut, onAuthChange, uploadAvatar, type AuthUser } from '../api';
 import type { PendingAction } from '../types/auth-type';
 import { withDevtools } from '@src/lib/zustand.ts';
 
@@ -14,6 +14,7 @@ export interface AuthState {
   register: (email: string, password: string, displayName: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  uploadAvatar: (file: File) => Promise<void>;
   setUser: (user: AuthUser | null) => void;
   setIsLoading: (loading: boolean) => void;
   initializeAuth: () => void;
@@ -65,6 +66,22 @@ export const useAuthStore = create<AuthState>()(
 
     setUser: (user) => {
       set({ user, isAuthenticated: !!user });
+    },
+
+    uploadAvatar: async (file: File) => {
+      const { user } = useAuthStore.getState();
+      if (!user) return;
+      set({ isLoading: true });
+      try {
+        const url = await uploadAvatar(user.uid, file);
+        set((state) => ({
+          user: state.user ? { ...state.user, avatarUrl: url } : null,
+          isLoading: false,
+        }));
+      } catch (error) {
+        set({ isLoading: false });
+        throw error;
+      }
     },
 
     setIsLoading: (loading) => {

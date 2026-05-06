@@ -2,6 +2,7 @@ export type AuthUser = {
   uid: string;
   email: string | null;
   displayName: string | null;
+  avatarUrl?: string;
 };
 
 import { Timestamp } from 'firebase/firestore';
@@ -11,6 +12,7 @@ export type AuthUserDb = {
   display_name: string | null;
   created_at: Timestamp;
   updated_at: Timestamp;
+  avatar_url?: string | null;
 };
 
 export type ActionType = {

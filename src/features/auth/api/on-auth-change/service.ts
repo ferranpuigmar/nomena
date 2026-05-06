@@ -12,13 +12,19 @@ export function onAuthChange(callback: (user: AuthUser | null) => void): () => v
     }
 
     let displayName = user.displayName;
+    let avatarUrl: string | undefined;
+
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    const raw = (userDoc.data() ?? {}) as Partial<AuthUserDb> & Record<string, unknown>;
 
     if (!displayName) {
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      const raw = (userDoc.data() ?? {}) as Partial<AuthUserDb> & Record<string, unknown>;
       displayName = readDisplayNameFromUserDb(raw) || user.email;
     }
 
-    callback(mapDbUserToDomain(user, displayName));
+    if (typeof raw.avatar_url === 'string') {
+      avatarUrl = raw.avatar_url;
+    }
+
+    callback(mapDbUserToDomain(user, displayName, avatarUrl));
   });
 }

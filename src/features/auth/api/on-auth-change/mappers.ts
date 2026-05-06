@@ -3,12 +3,14 @@ import type { AuthUser, AuthUserDb } from '@src/features/auth/types/auth-type';
 
 export function mapDbUserToDomain(
   user: User,
-  displayName: string | null = user.displayName
+  displayName: string | null = user.displayName,
+  avatarUrl?: string
 ): AuthUser {
   return {
     uid: user.uid,
     email: user.email,
     displayName,
+    avatarUrl,
   };
 }
 
