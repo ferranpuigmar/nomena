@@ -48,7 +48,7 @@ export const UserMenu = ({ user, onLogout }: UserMenuProps) => {
         <MenuItem>
           <Button variant="link"
             onClick={onLogout}
-            className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-50 rounded-b-lg"
+            className="block w-full px-4 py-2 text-left text-sm text-accent-secondary hover:text-accent-secondary-hover hover:bg-gray-50 rounded-b-lg"
           >
             Logout
           </Button>

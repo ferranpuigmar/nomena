@@ -10,11 +10,11 @@ export const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: 'bg-accent-primary hover:bg-accent-primary-hover text-text-on-accent',
-                danger: 'bg-error hover:bg-error/90 text-text-on-accent',
-                ghost: 'bg-transparent hover:bg-bg-surface-hover text-text-primary border border-border-default',
+                default: 'bg-accent-primary hover:bg-accent-primary-hover text-fg-on-accent',
+                danger: 'bg-error hover:bg-error/90 text-fg-on-accent',
+                ghost: 'bg-transparent hover:bg-canvas-surface-hover text-fg-primary border border-stroke-default',
                 'ghost-accent': 'bg-transparent hover:bg-accent-primary/10 text-accent-primary border border-accent-primary',
-                link: 'bg-transparent hover:text-accent-primary text-text-primary',
+                link: 'bg-transparent hover:text-accent-primary text-fg-primary',
                 'link-accent': 'bg-transparent hover:text-accent-primary-hover text-accent-primary',
             },
             size: {

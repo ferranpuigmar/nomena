@@ -21,9 +21,9 @@ export const BaseLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Header menuItems={appNavItems} actions={<AuthHeaderControls />} />
-      <main className="mx-auto w-full max-w-7xl px-4 py-8">
+      <main className="w-full">
         <Outlet />
       </main>
     </div>

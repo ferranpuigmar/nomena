@@ -27,5 +27,11 @@ export function useNameFilters() {
     handleDebounceQuery.cancel()
   }
 
-  return { selectedGenders, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery }
+  const clearSearchQuery = () => {
+    queryClient.removeQueries({ queryKey: ['names'] })
+    setSearchQuery('')
+    handleDebounceQuery.cancel()
+  }
+
+  return { selectedGenders, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery, clearSearchQuery }
 }

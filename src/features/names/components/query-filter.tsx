@@ -1,5 +1,6 @@
-import { cn } from "@src/lib/cn";
 import React from "react";
+import SearchInput from "./search-input";
+import Letters from "./letters";
 
 interface QueryFilterProps {
     handleQueryInput: (query: string) => void;
@@ -24,34 +25,10 @@ const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters }: QueryFilt
         setSelectedLetter(null);
     }
 
-    const letterSquareClass = (letter: string) => cn(
-        'px-2 py-1 mr-2 mb-2 bg-neutral border-2 rounded border-gray-300 cursor-pointer hover:bg-gray-300 transition-colors',
-        selectedLetter === letter ? 'bg-blue-500 text-white' : 'bg-white text-black'
-    );
-
     return (
         <>
-            <div className="mb-4">
-                <input
-                    type="text"
-                    placeholder="Buscar por nombre..."
-                    className="p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mb-4"
-                    onChange={handleInputChange}
-                    value={searchInput}
-                />
-            </div>
-            <div className="mb-4 flex flex-wrap">
-                {letters.map(letter => (
-                    <button
-                        type="button"
-                        key={letter}
-                        className={letterSquareClass(letter)}
-                        onClick={() => handleLetterClick(letter)}
-                    >
-                        <span className="font-bold">{letter}</span>
-                    </button>
-                ))}
-            </div>
+            <SearchInput onHandleInputChange={handleInputChange} searchInputValue={searchInput} />
+            <Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} />
         </>
     )
 }
