@@ -32,109 +32,64 @@
   font-display: swap;
 }
 
-:root {
-  /* Brand */
-  --accent-light: #E7F4F4;
-  --accent-primary: #0F766E;
-  --accent-primary-hover: #0B5E58;
-  --accent-secondary: #7C5CFA;
-  --accent-secondary-hover: #6847E6;
-
-  /* Backgrounds */
-  --canvas-inverse: #151515;
-  --canvas-primary: #f4eee8;
-  --canvas-surface: #FFFFFF;
-  --canvas-surface-elevated: #F1F2EF;
-  --canvas-surface-hover: #EBECE8;
-
-  /* Borders */
-  --stroke-default: #c5beb6;
-  --stroke-strong: #90958F;
-  --stroke-subtle: #E6E8E4;
-
-  /* Text */
-  --fg-inverse: #FFFFFF;
-  --fg-on-accent: #FFFFFF;
-  --fg-primary: #171717;
-  --fg-secondary: #5F635E;
-  --fg-tertiary: #90958F;
-
-  /* Favorites */
-  --favorite: #7C5CFA;
-  --favorite-light: #F1EDFF;
-
-  /* Matches */
-  --match-green: #159A75;
-  --match-green-light: #E7F7F1;
-
-  /* Gender */
-  --gender-female: #D46A8C;
-  --gender-female-light: #FDEBF1;
-
-  --gender-male: #4F7DDE;
-  --gender-male-light: #EAF0FF;
-
-  --gender-unisex: #7A67C7;
-  --gender-unisex-light: #F0EDFB;
-
-  /* Feedback */
-  --success: #159A75;
-  --success-light: #E7F7F1;
-
-  --warning: #E0A43A;
-  --warning-light: #FFF7E7;
-
-  --error: #D95C5C;
-  --error-light: #FDEDED;
-}
-
 @theme inline {
   --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
   --font-heading: 'Josefin Sans', ui-sans-serif, system-ui, sans-serif;
 
-  /* Colors */
-  --color-accent-light: var(--accent-light);
-  --color-accent-primary: var(--accent-primary);
-  --color-accent-primary-hover: var(--accent-primary-hover);
-  --color-accent-secondary: var(--accent-secondary);
-  --color-accent-secondary-hover: var(--accent-secondary-hover);
+  /* Primitives */
+  --color-white: #FFFFFF;
+  --color-black: #151515;
+  --color-neutral-muted: #90958F;
 
-  --color-canvas-inverse: var(--canvas-inverse);
-  --color-canvas-primary: var(--canvas-primary);
-  --color-canvas-surface: var(--canvas-surface);
-  --color-canvas-surface-elevated: var(--canvas-surface-elevated);
-  --color-canvas-surface-hover: var(--canvas-surface-hover);
+  /* Brand */
+  --color-accent-light: #E7F4F4;
+  --color-accent-primary: #0F766E;
+  --color-accent-primary-hover: #0B5E58;
+  --color-accent-secondary: #7C5CFA;
+  --color-accent-secondary-hover: #6847E6;
 
-  --color-stroke-default: var(--stroke-default);
-  --color-stroke-strong: var(--stroke-strong);
-  --color-stroke-subtle: var(--stroke-subtle);
+  /* Backgrounds */
+  --color-canvas-inverse: var(--color-black);
+  --color-canvas-primary: #f4eee8;
+  --color-canvas-surface: var(--color-white);
+  --color-canvas-surface-elevated: #F1F2EF;
+  --color-canvas-surface-hover: #EBECE8;
 
-  --color-fg-inverse: var(--fg-inverse);
-  --color-fg-on-accent: var(--fg-on-accent);
-  --color-fg-primary: var(--fg-primary);
-  --color-fg-secondary: var(--fg-secondary);
-  --color-fg-tertiary: var(--fg-tertiary);
+  /* Borders */
+  --color-stroke-default: #c5beb6;
+  --color-stroke-strong: var(--color-neutral-muted);
+  --color-stroke-subtle: #E6E8E4;
 
-  --color-favorite: var(--favorite);
-  --color-favorite-light: var(--favorite-light);
+  /* Text */
+  --color-fg-inverse: var(--color-white);
+  --color-fg-on-accent: var(--color-white);
+  --color-fg-primary: #171717;
+  --color-fg-secondary: #5F635E;
+  --color-fg-tertiary: var(--color-neutral-muted);
 
-  --color-match-green: var(--match-green);
-  --color-match-green-light: var(--match-green-light);
+  /* Favorites */
+  --color-favorite: var(--color-accent-secondary);
+  --color-favorite-light: #F1EDFF;
 
-  --color-gender-female: var(--gender-female);
-  --color-gender-female-light: var(--gender-female-light);
-  --color-gender-male: var(--gender-male);
-  --color-gender-male-light: var(--gender-male-light);
-  --color-gender-unisex: var(--gender-unisex);
-  --color-gender-unisex-light: var(--gender-unisex-light);
+  /* Matches */
+  --color-match-green: var(--color-success);
+  --color-match-green-light: var(--color-success-light);
 
-  --color-success: var(--success);
-  --color-success-light: var(--success-light);
-  --color-warning: var(--warning);
-  --color-warning-light: var(--warning-light);
-  --color-error: var(--error);
-  --color-error-light: var(--error-light);
-  
+  /* Gender */
+  --color-gender-female: #D46A8C;
+  --color-gender-female-light: #FDEBF1;
+  --color-gender-male: #4F7DDE;
+  --color-gender-male-light: #EAF0FF;
+  --color-gender-unisex: #7A67C7;
+  --color-gender-unisex-light: #F0EDFB;
+
+  /* Feedback */
+  --color-success: #159A75;
+  --color-success-light: #E7F7F1;
+  --color-warning: #E0A43A;
+  --color-warning-light: #FFF7E7;
+  --color-error: #D95C5C;
+  --color-error-light: #FDEDED;
 
   /* Radii */
   --radius-sm: 4px;
