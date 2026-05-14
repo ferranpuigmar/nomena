@@ -35,8 +35,8 @@ export async function getNames({
   const contraints: QueryConstraint[] = []
   
   if (filters) {
-    if (filters.gender && filters.gender.length > 0) {
-      contraints.push(where('gender', 'in', filters.gender))
+    if (filters.gender) {
+      contraints.push(where('gender', '==', filters.gender))
     }
     if (filters.usageScore) {
       contraints.push(where('usage_score', '>=', filters.usageScore.min))

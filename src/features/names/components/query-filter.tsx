@@ -6,15 +6,17 @@ interface QueryFilterProps {
     handleQueryInput: (query: string) => void;
     handleQueryLetter: (letter: string) => void;
     letters: string[];
+    selectedLetter: string | null;
+    onSetSelectedLetter: (letter: string | null) => void;
+    isFixed: boolean;
 }
 
-const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters }: QueryFilterProps) => {
+const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters, selectedLetter, onSetSelectedLetter, isFixed }: QueryFilterProps) => {
     const [searchInput, setSearchInput] = React.useState('');
-    const [selectedLetter, setSelectedLetter] = React.useState<string | null>(null);
 
     const handleLetterClick = (letter: string) => {
         const newLetter = selectedLetter === letter ? null : letter;
-        setSelectedLetter(newLetter);
+        onSetSelectedLetter(newLetter);
         handleQueryLetter(newLetter ?? '');
         setSearchInput('');
     }
@@ -22,13 +24,13 @@ const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters }: QueryFilt
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(e.target.value);
         handleQueryInput(e.target.value);
-        setSelectedLetter(null);
+        onSetSelectedLetter(null);
     }
 
     return (
         <>
             <SearchInput onHandleInputChange={handleInputChange} searchInputValue={searchInput} />
-            <Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} />
+            {!isFixed && <Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} />}
         </>
     )
 }

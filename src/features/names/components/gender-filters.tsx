@@ -1,4 +1,6 @@
+import { Button } from '@headlessui/react'
 import type { NameGender } from '../types/names-type'
+import { cn } from '@src/lib/cn'
 
 type GenderOption = {
   value: NameGender
@@ -12,23 +14,28 @@ const GENDER_OPTIONS: GenderOption[] = [
 ]
 
 type GenderFiltersProps = {
-  selectedGenders: NameGender[]
-  onToggleGender: (gender: NameGender) => void
+  selectedGender: NameGender | null
+  onToggleGender: (gender: NameGender | null) => void
 }
 
-export function GenderFilters({ selectedGenders, onToggleGender }: GenderFiltersProps) {
+export function GenderFilters({ selectedGender, onToggleGender }: GenderFiltersProps) {
+
+  const buttonLabelClass = (gender: NameGender | null) => cn(
+    "px-4 py-1.5 rounded-xl border",
+    "bg-white text-gray-700 border-stroke-default",
+    "data-[state=on]:bg-blue-600 data-[state=on]:text-white",
+    {
+      'bg-accent-primary text-white border-accent-primary': selectedGender === gender,
+    }
+  )
+
   return (
-    <div className="flex gap-4 mb-4">
+    <div className="flex gap-4 mb-2 justify-center">
+      <Button className={buttonLabelClass(null)} onClick={() => onToggleGender(null)}>Todos</Button>
       {GENDER_OPTIONS.map(({ value, label }) => (
-        <label key={value} className="flex items-center gap-1.5 cursor-pointer select-none text-sm">
-          <input
-            type="checkbox"
-            checked={selectedGenders.includes(value)}
-            onChange={() => onToggleGender(value)}
-            className="rounded border-gray-300"
-          />
+        <Button key={value} className={buttonLabelClass(value)} onClick= {() => onToggleGender(value)}>
           {label}
-        </label>
+        </Button>
       ))}
     </div>
   )

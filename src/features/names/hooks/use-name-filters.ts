@@ -5,18 +5,21 @@ import { useDebouncedCallback } from 'use-debounce';
 
 export function useNameFilters() {
   const queryClient = useQueryClient()
-  const [selectedGenders, setSelectedGenders] = useState<NameGender[]>([])
+  const [selectedGender, setSelectedGender] = useState<NameGender | null>(null)
   const [searchQuery, setSearchQuery] = useState<string>('')
 
-  const filters: Filters | undefined = selectedGenders.length > 0 || searchQuery
-    ? { gender: selectedGenders.length > 0 ? selectedGenders : null, usageScore: null, length_category: null, query: searchQuery || undefined }
+  const filters: Filters | undefined = selectedGender || searchQuery
+    ? { gender: selectedGender, usageScore: null, length_category: null, query: searchQuery || undefined }
     : undefined
 
-  const toggleGender = (gender: NameGender) => {
+  const toggleGender = (gender: NameGender | null) => {
     queryClient.invalidateQueries({ queryKey: ['names'] })
-    setSelectedGenders((prev) =>
-      prev.includes(gender) ? prev.filter((g) => g !== gender) : [...prev, gender]
-    )
+    if(!gender || gender === selectedGender) {
+      setSelectedGender(null)
+      return
+    }
+
+    setSelectedGender(gender)
   }
 
   const handleDebounceQuery = useDebouncedCallback((query: string) => {
@@ -33,5 +36,5 @@ export function useNameFilters() {
     handleDebounceQuery.cancel()
   }
 
-  return { selectedGenders, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery, clearSearchQuery }
+  return { selectedGender, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery, clearSearchQuery }
 }

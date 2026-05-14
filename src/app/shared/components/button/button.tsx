@@ -3,14 +3,14 @@ import { cn } from '@src/lib/cn'
 import { buttonVariants, type ButtonProps } from "./button.config";
 
 
-export const Button = ({ variant = 'default', size = 'default', className, children, to, end, activeVariant, ...rest }: ButtonProps) => {
+export const Button = ({ variant = 'default', size = 'default', className, color = 'default', children, to, end, activeVariant, ...rest }: ButtonProps) => {
   if (to !== undefined) {
     return (
       <NavLink
         to={to}
         end={end}
         className={({ isActive }) =>
-          cn(buttonVariants({ variant: isActive && activeVariant ? activeVariant : variant, size }), className)
+          cn(buttonVariants({ variant: isActive && activeVariant ? activeVariant : variant, size, color }), className)
         }
       >
         {children}
@@ -19,7 +19,7 @@ export const Button = ({ variant = 'default', size = 'default', className, child
   }
 
   return (
-    <button className={cn(buttonVariants({ variant, size }), className)} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
+    <button className={cn(buttonVariants({ variant, size, color }), className)} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
       {children}
     </button>
   )

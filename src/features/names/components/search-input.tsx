@@ -8,7 +8,7 @@ interface SearchInputProps {
 
 const SearchInput = ({ onHandleInputChange, searchInputValue }: SearchInputProps) => {
     return (
-        <div className="relative inline-block max-w-[540px] w-full mt-2 mb-3">
+        <div className="relative inline-block max-w-[540px] w-full">
             <SearchIcon className="size-5 absolute left-5 top-1/2 transform -translate-y-1/2 text-fg-tertiary" />
             <Text asChild variant="subtitle-1" className="font-normal">
                 <input

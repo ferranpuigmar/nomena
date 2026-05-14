@@ -16,21 +16,27 @@ export const buttonVariants = cva(
                 'ghost-accent': 'bg-transparent hover:bg-accent-primary/10 text-accent-primary border border-accent-primary',
                 link: 'bg-transparent hover:text-accent-primary text-fg-primary',
                 'link-accent': 'bg-transparent hover:text-accent-primary-hover text-accent-primary',
+                primary: 'bg-canvas-primary-200 hover:bg-canvas-primary-300 text-fg-on-primary border border-canvas-primary-300',
             },
             size: {
                 sm: 'px-3 py-1.5 text-sm',
                 default: 'px-4 py-2 text-sm',
                 md: 'px-6 py-3 text-md',
+            },
+            color: {
+                default: '',
+                'on-primary': 'text-black hover:text-white',
             }
         },
         defaultVariants: {
+            color: 'default',
             variant: "default",
             size: "default"
         }
     }
 );
 
-export interface ButtonProps extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends Omit<React.ComponentProps<"button">, "color">, VariantProps<typeof buttonVariants> {
     asChild?: boolean;
     to?: string;
     end?: boolean;

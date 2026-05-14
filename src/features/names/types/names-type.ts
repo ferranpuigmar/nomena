@@ -22,7 +22,7 @@ export type NumberRange = {
 }
 
 export type Filters = {
-  gender: NameGender[] | null;
+  gender: NameGender | null;
   usageScore: NumberRange | null;
   length_category: NameLengthCategory[] | null;
   query?: string;

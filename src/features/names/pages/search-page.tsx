@@ -11,7 +11,7 @@ import HeroSearch from '../components/hero-search.tsx'
 
 export function SearchPage() {
   const userId = useAuthStore((state) => state.user?.uid)
-  const { selectedGenders, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery, clearSearchQuery } = useNameFilters()
+  const { selectedGender, filters, toggleGender, handleDebounceQuery, setSearchQuery, cancelDebounceQuery, clearSearchQuery } = useNameFilters()
 
   const { data, isLoading, error, fetchNextPage } = useNames(filters)
   const { toggleFavorite, isFavorited } = useFavoritesByUserId(userId)
@@ -44,7 +44,7 @@ export function SearchPage() {
           handleOnToggleGender={toggleGender} 
           handleOnQueryLetter={handleQueryLetter} 
           handleOnDebounceQuery={handleDebounceQuery} 
-          selectedGender={selectedGenders} 
+          selectedGender={selectedGender} 
         />
         
         <ContentWrapper>

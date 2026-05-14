@@ -38,7 +38,7 @@
 
   /* Primitives */
   --color-white: #FFFFFF;
-  --color-black: #151515;
+  --color-black: #000000ff;
   --color-neutral-muted: #90958F;
 
   /* Brand */
@@ -50,7 +50,9 @@
 
   /* Backgrounds */
   --color-canvas-inverse: var(--color-black);
-  --color-canvas-primary: #f4eee8;
+  --color-canvas-primary-100: #f4eee8;
+  --color-canvas-primary-200: #F8F3EE;
+  --color-canvas-primary-300: #C5BEB6;
   --color-canvas-surface: var(--color-white);
   --color-canvas-surface-elevated: #F1F2EF;
   --color-canvas-surface-hover: #EBECE8;
