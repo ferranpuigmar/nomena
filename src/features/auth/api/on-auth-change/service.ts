@@ -14,15 +14,19 @@ export function onAuthChange(callback: (user: AuthUser | null) => void): () => v
     let displayName = user.displayName;
     let avatarUrl: string | undefined;
 
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    const raw = (userDoc.data() ?? {}) as Partial<AuthUserDb> & Record<string, unknown>;
+    try {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      const raw = (userDoc.data() ?? {}) as Partial<AuthUserDb> & Record<string, unknown>;
 
-    if (!displayName) {
-      displayName = readDisplayNameFromUserDb(raw) || user.email;
-    }
+      if (!displayName) {
+        displayName = readDisplayNameFromUserDb(raw) || user.email;
+      }
 
-    if (typeof raw.avatar_url === 'string') {
-      avatarUrl = raw.avatar_url;
+      if (typeof raw.avatar_url === 'string') {
+        avatarUrl = raw.avatar_url;
+      }
+    } catch {
+      // Firestore unavailable — proceed with basic auth data
     }
 
     callback(mapDbUserToDomain(user, displayName, avatarUrl));

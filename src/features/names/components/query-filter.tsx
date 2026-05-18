@@ -29,8 +29,8 @@ const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters, selectedLet
 
     return (
         <>
-            <SearchInput onHandleInputChange={handleInputChange} searchInputValue={searchInput} />
-            {!isFixed && <Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} />}
+            <SearchInput onHandleInputChange={handleInputChange} searchInputValue={searchInput} isFixed={isFixed} />
+            {!isFixed && <div className="flex justify-center gap-3"><Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} /></div>}
         </>
     )
 }

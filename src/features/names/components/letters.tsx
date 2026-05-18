@@ -13,18 +13,16 @@ const Letters = ({ letters, selectedLetter, handleLetterClick }: LettersProps) =
     );
 
     return (
-        <div className="flex flex-wrap justify-center gap-3">
-            {letters.map(letter => (
-                <button
-                    type="button"
-                    key={letter}
-                    className={letterSquareClass(letter)}
-                    onClick={() => handleLetterClick(letter)}
-                >
-                    {letter}
-                </button>
-            ))}
-        </div>
+        letters.map(letter => (
+            <button
+                type="button"
+                key={letter}
+                className={letterSquareClass(letter)}
+                onClick={() => handleLetterClick(letter)}
+            >
+                {letter}
+            </button>
+        ))
     )
 }
 

@@ -1,4 +1,4 @@
-import { Button } from '@headlessui/react'
+import { Button } from '@src/app/shared/components/button/button'
 import type { NameGender } from '../types/names-type'
 import { cn } from '@src/lib/cn'
 
@@ -16,24 +16,26 @@ const GENDER_OPTIONS: GenderOption[] = [
 type GenderFiltersProps = {
   selectedGender: NameGender | null
   onToggleGender: (gender: NameGender | null) => void
+  isFixed: boolean
 }
 
-export function GenderFilters({ selectedGender, onToggleGender }: GenderFiltersProps) {
+export function GenderFilters({ selectedGender, onToggleGender, isFixed }: GenderFiltersProps) {
 
-  const buttonLabelClass = (gender: NameGender | null) => cn(
-    "px-4 py-1.5 rounded-xl border",
-    "bg-white text-gray-700 border-stroke-default",
-    "data-[state=on]:bg-blue-600 data-[state=on]:text-white",
-    {
-      'bg-accent-primary text-white border-accent-primary': selectedGender === gender,
-    }
+  const wrapperClass = cn(
+    "flex gap-4 mb-2 justify-center",
+    { 'mb-0 gap-2': isFixed }
+  )
+
+  const buttonClass = cn(
+    "px-4 py-1.5 rounded-xl text-sm",
+    { 'h-10': isFixed }
   )
 
   return (
-    <div className="flex gap-4 mb-2 justify-center">
-      <Button className={buttonLabelClass(null)} onClick={() => onToggleGender(null)}>Todos</Button>
+    <div className={wrapperClass}>
+      <Button variant="ghost" isSelected={selectedGender === null} className={buttonClass} onClick={() => onToggleGender(null)}>Todos</Button>
       {GENDER_OPTIONS.map(({ value, label }) => (
-        <Button key={value} className={buttonLabelClass(value)} onClick= {() => onToggleGender(value)}>
+        <Button key={value} variant="ghost" isSelected={selectedGender === value} className={buttonClass} onClick={() => onToggleGender(value)}>
           {label}
         </Button>
       ))}

@@ -3,13 +3,36 @@ import { Button } from '@src/app/shared/components/button/button';
 import { useClickOutside } from '@src/app/shared/hooks/useClickOutside';
 import { useIsMobile } from '@src/app/shared/hooks/useMobile';
 import React, { useRef, useState } from 'react'
+import ArrowDown from '@src/assets/icons/chevron-down.svg?react'
+import FilterIcon from '@src/assets/icons/filter.svg?react'
+import type { ButtonSize } from '@src/app/shared/components/button/button.config';
 
 interface DropdownMenuProps {
     dropDownButton: React.ReactNode;
     dropDownItem: React.ReactNode;
+    className?: string;
 }
 
-const Dropdown = ({ dropDownButton, dropDownItem }: DropdownMenuProps) => {
+interface DropdownItemProps {
+    children: React.ReactNode;
+    onClick: () => void;
+    icon?: React.ReactNode;
+    isOpen: boolean;
+    size?: ButtonSize;
+    className?: string;
+}
+
+const DropDownButton = ({ children, onClick, icon, isOpen, size, className }: DropdownItemProps) => {
+    return (
+        <Button variant="secondary" onClick={onClick} className={`flex gap-0.5 ${className}`} size={size}>
+            {icon && <span className="mr-2 text-accent-primary">{icon}</span>}
+            {children}
+            <ArrowDown className={`ml-2 transition-transform text-accent-primary ${isOpen ? 'rotate-180' : ''}`} />
+        </Button>
+    );
+}
+
+const Dropdown = ({ dropDownButton, dropDownItem, className }: DropdownMenuProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const isMobile = useIsMobile()
     const containerRef = useRef<HTMLDivElement>(null)
@@ -17,7 +40,7 @@ const Dropdown = ({ dropDownButton, dropDownItem }: DropdownMenuProps) => {
     useClickOutside({
         ref: containerRef as React.RefObject<HTMLElement>,
         handler: () => setIsOpen(false),
-        eventListener: 'mouseleave',
+        eventListener: isMobile ? 'touchstart' : 'mouseleave',
         listenOn: 'ref',
         enabled: !isMobile && isOpen,
     })
@@ -25,10 +48,9 @@ const Dropdown = ({ dropDownButton, dropDownItem }: DropdownMenuProps) => {
     if (isMobile) {
         return (
             <div>
-                <button onClick={() => setIsOpen(true)}>
+                <DropDownButton isOpen={isOpen} onClick={() => setIsOpen(true)} size='sm' className={className}>
                     {dropDownButton}
-                </button>
-
+                </DropDownButton>
                 <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
                     <DialogBackdrop className="fixed inset-0 bg-black/30" />
                     <div className="fixed inset-0 flex items-end justify-center">
@@ -46,19 +68,13 @@ const Dropdown = ({ dropDownButton, dropDownItem }: DropdownMenuProps) => {
             ref={containerRef}
             className="relative inline-block text-left"
         >
-            <Button
-                onClick={() => setIsOpen(!isOpen)}
-                variant="primary"
-                color='on-primary'
-            >
+            <DropDownButton isOpen={isOpen} onClick={() => setIsOpen(true)} icon={<FilterIcon />} size='sm' className={className}>
                 {dropDownButton}
-            </Button>
+            </DropDownButton>
 
             {isOpen && (
                 <div className="absolute left-0 top-full z-10 w-[200px] pt-1">
-                    <div className="rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5">
-                        {dropDownItem}
-                    </div>
+                    {dropDownItem}
                 </div>
             )}
         </div>

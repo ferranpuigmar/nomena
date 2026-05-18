@@ -16,7 +16,7 @@ export const textVariants = cva("", {
             "overline": "text-[11px] leading-[16px] font-medium [&_strong]:font-semibold",
         },
         font: {
-            sans: "font-sans",
+            sans: "font-body",
             heading: "font-heading",
         },
         color: {

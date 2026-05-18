@@ -63,7 +63,7 @@ export function NameDetailDrawer({
 			{/* Backdrop */}
 			<DialogBackdrop
 				transition
-				className="fixed inset-0 bg-black/30 transition duration-300 ease-in-out data-closed:opacity-0"
+				className="fixed inset-0 bg-black/30 transition-[opacity] duration-300 ease-in-out data-closed:opacity-0"
 			/>
 
 			{/* Drawer panel */}
@@ -72,7 +72,7 @@ export function NameDetailDrawer({
 					<div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
 						<DialogPanel
 							transition
-							className="pointer-events-auto w-screen max-w-md transform transition duration-300 ease-in-out data-closed:translate-x-full"
+							className="pointer-events-auto w-screen max-w-md transition-[translate] duration-300 ease-in-out data-closed:translate-x-full"
 						>
 							<div className="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
 								{/* Header */}
