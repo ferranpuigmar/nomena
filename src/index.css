@@ -103,7 +103,7 @@
 
   /* ── Gender ── */
   --color-gender-plum: #9E5A80;
-  --color-gender-plum-light: #F5ECF1;
+  --color-gender-plum-light: #FDEBF1;
   --color-gender-slate: #7088A0;
   --color-gender-slate-light: #EDF1F5;
   --color-gender-violet: #7A67C7;
@@ -140,7 +140,7 @@
   }
 
   body {
-    background: var(--color-canvas-primary);
+    background: var(--color-neutral-100);
     color: var(--color-fg-primary);
     font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
     font-synthesis: none;

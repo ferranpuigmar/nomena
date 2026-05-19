@@ -48,7 +48,7 @@ export function SearchPage() {
         />
         
         <ContentWrapper>
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             {allNames.map((name, index) => (
               <NameCard
                 key={name.normalizedName}

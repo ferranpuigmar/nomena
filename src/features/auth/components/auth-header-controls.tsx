@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/auth-store'
 import { Button } from '@src/app/shared/components/button/button'
 import { ROUTES } from '@src/app/router'
 import { useFavoritesStore } from '@src/features/favorites/store/favorites-store'
-import HearthIcon from '@src/assets/icons/hearth.svg?react'
+import HeartIcon from '@src/assets/icons/heart.svg?react'
 import { UserMenu } from './user-menu'
 
 export const AuthHeaderControls = () => {
@@ -23,7 +23,7 @@ export const AuthHeaderControls = () => {
       <div className="flex items-center gap-4">
         {!!favoritesCount && (
           <div className='flex items-center'>
-            <span className="text-sm text-gray-600"><HearthIcon className="size-4 text-accent-primary" /></span>
+            <span className="text-sm text-gray-600"><HeartIcon className="size-4 text-accent-primary" /></span>
             <span className="ml-1 text-sm font-medium text-accent-primary">{favoritesCount}</span>
           </div>
         )}

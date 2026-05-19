@@ -8,8 +8,8 @@ type GenderOption = {
 }
 
 const GENDER_OPTIONS: GenderOption[] = [
-  { value: 'boy', label: 'Niño' },
-  { value: 'girl', label: 'Niña' },
+  { value: 'boy', label: 'Masculino' },
+  { value: 'girl', label: 'Femenino' },
   { value: 'unisex', label: 'Neutro' },
 ]
 

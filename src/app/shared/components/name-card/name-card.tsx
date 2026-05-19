@@ -1,11 +1,23 @@
 import React from "react";
 import type { NameGender } from "@src/features/names/types/names-type";
 import { cn } from "@src/lib/cn";
+import NameCardHearth from "./name-card-hearth";
+import { Text } from "../text/text";
+import type { TagVariant } from "../tag/Tag.config";
+import Tag from "../tag/Tag";
 
 const GENDER_LABEL: Record<NameGender, string> = {
-	boy: "Niño",
-	girl: "Niña",
+	boy: "Masculino",
+	girl: "Femenino",
 	unisex: "Neutro",
+	neutral: "Neutro",
+};
+
+const GENDER_DICTIONARY: Record<NameGender, TagVariant> = {
+	boy: 'gender-male',
+	girl: 'gender-female',
+	unisex: 'gender-unisex',
+	neutral: 'gender-unisex',
 };
 
 const MAX_USAGE_SCORE = 603004;
@@ -53,36 +65,44 @@ const NameCard = ({
 		}
 	};
 
+	const boxClass = cn(
+		"relative",
+		"rounded-lg bg-white",
+		onClick ? "hover:shadow-md" : "cursor-default"
+	);
+
+	console.log('gender', gender, 'origin', origin, 'usageScore', usageScore)
+
 	return (
 		<div
-			className="relative p-4 border rounded shadow flex flex-col gap-2 items-start cursor-pointer hover:shadow-md transition-shadow"
+			className={boxClass}
 			onClick={onClick}
 		>
-			{onToggleFavorite && (
-				<button
-					onClick={handleFavoriteClick}
-					disabled={isLoading}
-					className={cn(
-						"absolute top-2 right-2 text-xl leading-none transition-opacity cursor-pointer",
-						isFavorited ? "text-red-500" : "text-gray-300 hover:text-red-400",
-					)}
-					aria-label={
-						isFavorited ? "Quitar de favoritos" : "Añadir a favoritos"
-					}
-				>
-					♥
-				</button>
-			)}
-			<div>
-				<span className="text-sm font-semibold">{name}</span>
+			<div className="absolute top-5.5 right-5 text-xl leading-none">
+				<NameCardHearth
+					isFavorited={isFavorited}
+					isLoading={isLoading}
+					onToggleFavorite={onToggleFavorite}
+					nameId={nameId}
+					name={name}
+					onHandleFavoriteClick={handleFavoriteClick}
+				/>
 			</div>
-			<div className="flex gap-2 text-xs text-gray-500">
-				{gender && <span>{GENDER_LABEL[gender]}</span>}
-				{gender && Array.isArray(origin) && origin.length > 0 && <span>·</span>}
-				{Array.isArray(origin) && origin.length > 0 && <span>{origin.join(', ')}</span>}
+			<div className="border rounded-tl-lg rounded-tr-lg p-5 pb-4 flex flex-col gap-1 border-neutral-200">
+				<div>
+					<Text variant="h2" className="font-heading text-xl lowercase first-letter:uppercase inline-block">
+						{name}
+					</Text>
+				</div>
+				<div className="flex gap-2 text-xs text-gray-500">
+					{gender && gender !== null && <Tag variant={GENDER_DICTIONARY[gender]}>{GENDER_LABEL[gender]}</Tag>}
+					{!!gender && Array.isArray(origin) && origin.length > 0 && <span>·</span>}
+					{Array.isArray(origin) && origin.length > 0 && <span>{origin.join(', ')}</span>}
+				</div>
 			</div>
+
 			{usageScore != null && (
-				<div className="flex flex-col gap-0.5">
+				<div className="flex flex-col gap-0.5 border border-t-0 rounded-bl-lg rounded-br-lg p-4 border-neutral-200">
 					<span className="text-xs text-gray-400">Personas registradas</span>
 					<div
 						className="flex items-center gap-1.5"

@@ -1,6 +1,6 @@
 import type { Timestamp } from 'firebase/firestore';
 
-export type NameGender = 'boy' | 'girl' | 'unisex';
+export type NameGender = 'boy' | 'girl' | 'unisex' | 'neutral';
 export type NameLengthCategory = 'short' | 'long';
 
 export type NameDb = {
