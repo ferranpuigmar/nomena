@@ -1,5 +1,5 @@
 import { cn } from '@src/lib/cn';
-import { tagVariants, type TagProps } from './Tag.config';
+import { tagVariants, type TagProps } from './tag.config';
 
 const Tag = ({ variant = 'default', children, className, ...props }: TagProps) => {
   return (

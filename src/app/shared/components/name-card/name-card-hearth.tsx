@@ -23,7 +23,7 @@ const NameCardHearth = ({ isFavorited, isLoading, onToggleFavorite, onHandleFavo
             disabled={isLoading}
             className={cn(
                 "transition-opacity cursor-pointer",
-                isFavorited ? "text-red-500" : "text-gray-300 hover:text-red-400",
+                isFavorited ? "text-red-500" : "text-neutral-400 hover:text-red-400",
             )}
             aria-label={
                 isFavorited ? "Quitar de favoritos" : "Añadir a favoritos"

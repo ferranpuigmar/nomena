@@ -23,8 +23,8 @@ export const AuthHeaderControls = () => {
       <div className="flex items-center gap-4">
         {!!favoritesCount && (
           <div className='flex items-center'>
-            <span className="text-sm text-gray-600"><HeartIcon className="size-4 text-accent-primary" /></span>
-            <span className="ml-1 text-sm font-medium text-accent-primary">{favoritesCount}</span>
+            <HeartIcon className="size-4 text-red-500" />
+            <span className="ml-1 text-sm font-medium text-red-500">{favoritesCount}</span>
           </div>
         )}
         <UserMenu user={user} onLogout={handleLogout} />

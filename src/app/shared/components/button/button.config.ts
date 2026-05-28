@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { size } from "zod";
 
 export const buttonVariants = cva(
     `focus-visible:shadow-none inline-flex items-center justify-center gap-2 
@@ -17,6 +18,7 @@ export const buttonVariants = cva(
                 link: 'bg-transparent hover:text-accent-primary text-fg-primary',
                 'link-accent': 'bg-transparent hover:text-accent-primary-hover text-accent-primary',
                 secondary: 'bg-canvas-primary border border-neutral-400 text-fg-primary font-semibold hover:bg-neutral-200',
+                'rounded': 'rounded-full border border-neutral-200 text-neutral-700 font-semibold enabled:hover:bg-neutral-200 px-0 mx-0',
             },
             size: {
                 sm: 'px-3 py-1.5 text-sm',
@@ -47,7 +49,12 @@ export const buttonVariants = cva(
                 variant: 'ghost',
                 isSelected: true,
                 className: 'bg-brand-700 text-fg-on-accent hover:bg-brand-900 hover:text-fg-on-accent',
-            },
+            }, 
+            {
+                variant: 'rounded',
+                size: 'default',
+                className: 'p-2',
+            }
         ],
         defaultVariants: {
             color: 'default',
@@ -59,8 +66,8 @@ export const buttonVariants = cva(
 );
 
 export type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
-export type ButtonSize    = VariantProps<typeof buttonVariants>['size'];
-export type ButtonColor   = VariantProps<typeof buttonVariants>['color'];
+export type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+export type ButtonColor = VariantProps<typeof buttonVariants>['color'];
 
 export interface ButtonProps extends Omit<React.ComponentProps<"button">, "color">, VariantProps<typeof buttonVariants> {
     asChild?: boolean;

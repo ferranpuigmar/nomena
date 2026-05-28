@@ -3,29 +3,25 @@ import type { NameGender } from "@src/features/names/types/names-type";
 import { cn } from "@src/lib/cn";
 import NameCardHearth from "./name-card-hearth";
 import { Text } from "../text/text";
-import type { TagVariant } from "../tag/Tag.config";
-import Tag from "../tag/Tag";
+import Tag from "@src/app/shared/components/tag/tag";
+import { GENDER_DICTIONARY, GENDER_LABEL, MAX_USAGE_SCORE } from "../../constants/names";
 
-const GENDER_LABEL: Record<NameGender, string> = {
-	boy: "Masculino",
-	girl: "Femenino",
-	unisex: "Neutro",
-	neutral: "Neutro",
-};
+const usageQuantityFormat = (score: number) => {
+	if (score >= 1000) {
+		return `${(score / 1000).toFixed(1)}K`;
+	}
+	return score.toString();
+}
 
-const GENDER_DICTIONARY: Record<NameGender, TagVariant> = {
-	boy: 'gender-male',
-	girl: 'gender-female',
-	unisex: 'gender-unisex',
-	neutral: 'gender-unisex',
-};
+function useageToString(score: number): string {
+	const usageDictionary: Record<number, string> = {
+		1: "Poco Usado",
+		2: "Usado",
+		3: "Muy usado"
+	}
 
-const MAX_USAGE_SCORE = 603004;
-
-function scoreToDots(score: number): number {
-	// Logarithmic scale: score 603004 → 5 dots, score 20 → 1 dot
 	const normalized = Math.log(score) / Math.log(MAX_USAGE_SCORE);
-	return Math.max(1, Math.round(normalized * 4) + 1);
+	return usageDictionary[Math.max(1, Math.round(normalized * 2) + 1)];
 }
 
 interface NameCardProps {
@@ -43,7 +39,6 @@ const NameCard = ({
 	name,
 	nameId,
 	gender,
-	origin,
 	usageScore,
 	isFavorited = false,
 	onToggleFavorite,
@@ -67,11 +62,10 @@ const NameCard = ({
 
 	const boxClass = cn(
 		"relative",
-		"rounded-lg bg-white",
+		"cursor-pointer transition-shadow transition-transform duration-200",
+		"rounded-lg bg-white transform hover:-translate-y-0.5",
 		onClick ? "hover:shadow-md" : "cursor-default"
 	);
-
-	console.log('gender', gender, 'origin', origin, 'usageScore', usageScore)
 
 	return (
 		<div
@@ -94,35 +88,24 @@ const NameCard = ({
 						{name}
 					</Text>
 				</div>
-				<div className="flex gap-2 text-xs text-gray-500">
-					{gender && gender !== null && <Tag variant={GENDER_DICTIONARY[gender]}>{GENDER_LABEL[gender]}</Tag>}
-					{!!gender && Array.isArray(origin) && origin.length > 0 && <span>·</span>}
-					{Array.isArray(origin) && origin.length > 0 && <span>{origin.join(', ')}</span>}
-				</div>
 			</div>
 
 			{usageScore != null && (
-				<div className="flex flex-col gap-0.5 border border-t-0 rounded-bl-lg rounded-br-lg p-4 border-neutral-200">
-					<span className="text-xs text-gray-400">Personas registradas</span>
-					<div
-						className="flex items-center gap-1.5"
-						aria-label={`Popularidad: ${scoreToDots(usageScore)} de 5`}
-					>
-						<div className="flex gap-1">
-							{Array.from({ length: 5 }, (_, i) => (
-								<span
-									key={i}
-									className={cn(
-										"h-2 w-2 rounded-full",
-										i < scoreToDots(usageScore) ? "bg-gray-700" : "bg-gray-200",
-									)}
-								/>
-							))}
+				<div className="flex justify-between border border-t-0 rounded-bl-lg rounded-br-lg p-4 py-3 border-neutral-200">
+					{gender && (
+						<div className="flex gap-2 text-xs text-gray-500">
+							<Tag variant={GENDER_DICTIONARY[gender]}>{GENDER_LABEL[gender]}</Tag>
 						</div>
-						<span className="text-xs text-gray-400">
-							({usageScore.toLocaleString("es-ES")})
-						</span>
-					</div>
+					)}
+					{usageScore && (
+						<div className="flex gap-2 text-xs text-gray-500">
+							<Tag variant="gray">
+								{useageToString(usageScore)}
+								<span className="mx-1 inline-block rounded-full w-0.5 h-0.5 bg-neutral-700"></span>
+								{usageQuantityFormat(usageScore)}
+							</Tag>
+						</div>
+					)}
 				</div>
 			)}
 		</div>

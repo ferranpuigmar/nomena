@@ -5,15 +5,14 @@ import {
 	DialogTitle,
 } from "@headlessui/react";
 import React from "react";
-import type { Name, NameGender } from "../types/names-type";
+import type { Name } from "../types/names-type";
 import { cn } from "@src/lib/cn";
 import { Button } from "@src/app/shared/components/button/button";
-
-const GENDER_LABEL: Record<NameGender, string> = {
-	boy: "Niño",
-	girl: "Niña",
-	unisex: "Neutro",
-};
+import ArrowLeftIcon from "@src/assets/icons/arrow-left.svg?react";
+import ArrowRightIcon from "@src/assets/icons/arrow-right.svg?react";
+import CloseIcon from "@src/assets/icons/x.svg?react";
+import Tag from "@src/app/shared/components/tag/tag";
+import { GENDER_DICTIONARY, GENDER_LABEL } from "@src/app/shared/constants/names";
 
 const MAX_USAGE_SCORE = 603004;
 
@@ -75,80 +74,30 @@ export function NameDetailDrawer({
 							className="pointer-events-auto w-screen max-w-md transition-[translate] duration-300 ease-in-out data-closed:translate-x-full"
 						>
 							<div className="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
-								{/* Header */}
-								<div className="flex items-center justify-between px-6 py-4 border-b">
-									<DialogTitle className="text-lg font-semibold text-gray-900">
-										{name?.name ?? ""}
-									</DialogTitle>
-									<div className="flex items-center gap-1">
-										<button
-											onClick={onPrev}
-											disabled={!onPrev}
-											className="rounded p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-											aria-label="Nombre anterior"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												className="h-5 w-5"
-												viewBox="0 0 20 20"
-												fill="currentColor"
-											>
-												<path
-													fillRule="evenodd"
-													d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-													clipRule="evenodd"
-												/>
-											</svg>
-										</button>
-										<button
-											onClick={onNext}
-											disabled={!onNext}
-											className="rounded p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-											aria-label="Nombre siguiente"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												className="h-5 w-5"
-												viewBox="0 0 20 20"
-												fill="currentColor"
-											>
-												<path
-													fillRule="evenodd"
-													d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-													clipRule="evenodd"
-												/>
-											</svg>
-										</button>
-										<button
-											onClick={onClose}
-											className="rounded p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors ml-1"
-											aria-label="Cerrar"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												className="h-5 w-5"
-												viewBox="0 0 20 20"
-												fill="currentColor"
-											>
-												<path
-													fillRule="evenodd"
-													d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-													clipRule="evenodd"
-												/>
-											</svg>
-										</button>
+								<div className="flex items-center justify-between px-6 py-4 gap-1">
+									<div className="flex items-center gap-2">
+										<Button variant="rounded" onClick={onPrev} disabled={!onPrev}>
+											<ArrowLeftIcon className="h-5 w-5" />
+										</Button>
+										<Button variant="rounded" onClick={onNext} disabled={!onNext}>
+											<ArrowRightIcon className="h-5 w-5" />
+										</Button>
 									</div>
+									<Button variant="rounded" onClick={onClose}>
+										<CloseIcon className="h-5 w-5" />
+									</Button>
 								</div>
 
 								{/* Content */}
 								{name && (
-									<div className="flex-1 px-6 py-6 space-y-6">
+									<div className="flex-1 px-6 py-6 pt-0 space-y-6">
+										<DialogTitle className="text-4xl font-semibold text-gray-900 lowercase first-letter:uppercase inline-block">
+											{name?.name ?? ""}
+										</DialogTitle>
 										{/* Gender & Origin */}
 										<div className="flex flex-wrap gap-3">
 											{name.gender && (
-												<span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
-													{GENDER_LABEL[name.gender]}
-												</span>
+												<Tag variant={GENDER_DICTIONARY[name.gender]}>{GENDER_LABEL[name.gender]}</Tag>
 											)}
 											{name.origin && name.origin.length > 0 && name.origin.map((o, i) => (
 												<span key={i} className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">

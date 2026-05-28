@@ -6,6 +6,11 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    watch: {
+      usePolling: true,
+    },
+  },
   resolve: {
     alias: {
       '@src': fileURLToPath(new URL('./src', import.meta.url)),

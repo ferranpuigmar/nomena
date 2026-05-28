@@ -13,12 +13,13 @@ export function useNameFilters() {
     : undefined
 
   const toggleGender = (gender: NameGender | null) => {
-    queryClient.invalidateQueries({ queryKey: ['names'] })
     if(!gender || gender === selectedGender) {
+      queryClient.removeQueries({ queryKey: ['names'] })
       setSelectedGender(null)
       return
     }
 
+    queryClient.removeQueries({ queryKey: ['names'] })
     setSelectedGender(gender)
   }
 

@@ -1,16 +1,36 @@
+import { useState } from 'react'
 import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { useFavoritesByUserId } from '../hooks/use-favorites'
 import { useCouple } from '@src/features/couple/hooks/use-couple'
 import NameCard from '@src/app/shared/components/name-card/name-card'
+import { NameDetailDrawer } from '@src/features/names/components/name-detail-drawer'
+import { useNameDetailNavigation } from '@src/features/names/hooks/use-name-detail-navigation'
+import type { FavoriteName } from '../types/favorite-type'
+import type { Name } from '@src/features/names/types/names-type'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+
+function toName(item: FavoriteName): Name {
+  return {
+    id: item.id,
+    name: item.name,
+    normalizedName: '',
+    gender: (item.gender ?? 'neutral') as Name['gender'],
+    origin: item.origin ? [item.origin] : undefined,
+    length: item.name.length,
+    lengthCategory: item.name.length <= 6 ? 'short' : 'long',
+    usageScore: item.usageScore,
+  }
+}
 
 export function FavoritesPage() {
   const userId = useAuthStore((state) => state.user?.uid)
   const { favorites, isLoading, toggleFavorite, isFavorited } = useFavoritesByUserId(userId)
-  const { sharedFavorites } = useCouple(userId)
   const {
+    sharedFavorites,
     partnerDisplayNames,
   } = useCouple(userId);
+
+  const [activeTab, setActiveTab] = useState(0)
 
   const myNameIds = new Set(favorites?.names.map((n) => n.id) ?? [])
   const matches = sharedFavorites.flatMap((partnerFavorites) =>
@@ -19,6 +39,25 @@ export function FavoritesPage() {
   const partnetFavoritesLength = sharedFavorites.reduce((total, partner) => total + partner.names.length, 0)
   const matchesLength = matches.length;
   const myFavoritesLength = favorites?.names.length ?? 0;
+
+  const myNames: Name[] = favorites?.names.map(toName) ?? []
+  const partnerNames: Name[] = sharedFavorites.flatMap((pf) => pf.names.map(toName))
+  const matchNames: Name[] = matches.map(toName)
+
+  const tabNames = [myNames, partnerNames, matchNames]
+  const currentNames = tabNames[activeTab] ?? []
+
+  const getIndexInCurrent = (nameId: string) => currentNames.findIndex((n) => n.id === nameId)
+
+  const {
+    selectedIndex,
+    selectedName,
+    hasPrevPageClick,
+    hasNextPageClick,
+    openNameDetail,
+    closeNameDetail,
+    handleDrawerNavigation,
+  } = useNameDetailNavigation(currentNames)
 
   if (isLoading) {
     return <p>Loading favorites...</p>
@@ -35,7 +74,7 @@ export function FavoritesPage() {
 
   return (
     <section>
-      <TabGroup>
+      <TabGroup selectedIndex={activeTab} onChange={setActiveTab}>
         <TabList className="flex gap-4">
           <Tab className="-mb-px rounded-2xl border-2 px-4 py-2 text-sm font-medium text-gray-600 transition hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 data-selected:border-blue-600 data-selected:text-blue-700">
             Mis favoritos <span>{myFavoritesLength}</span>
@@ -56,10 +95,11 @@ export function FavoritesPage() {
                   name={favorite.name}
                   nameId={favorite.id}
                   gender={favorite.gender}
-                  origin={favorite.origin}
+                  origin={favorite.origin ? [favorite.origin] : undefined}
                   usageScore={favorite.usageScore}
                   isFavorited={isFavorited(favorite.id)}
-                  onToggleFavorite={toggleFavorite}
+        onToggleFavorite={activeTab === 0 ? (nameId, name) => toggleFavorite(nameId, name ?? '') : undefined}
+                  onClick={() => openNameDetail(getIndexInCurrent(favorite.id))}
                 />
               ))}
             </div>
@@ -77,10 +117,11 @@ export function FavoritesPage() {
                         name={name.name}
                         nameId={name.id}
                         gender={name.gender}
-                        origin={name.origin}
+                        origin={name.origin ? [name.origin] : undefined}
                         usageScore={name.usageScore}
                         isFavorited={false}
                         onToggleFavorite={undefined}
+                        onClick={() => openNameDetail(getIndexInCurrent(name.id))}
                       />
                     ))}
                   </div>
@@ -102,10 +143,11 @@ export function FavoritesPage() {
                           name={name.name}
                           nameId={name.id}
                           gender={name.gender}
-                          origin={name.origin}
+                          origin={name.origin ? [name.origin] : undefined}
                           usageScore={name.usageScore}
                           isFavorited={true}
                           onToggleFavorite={undefined}
+                          onClick={() => openNameDetail(getIndexInCurrent(name.id))}
                         />
                       ))}
                     </div>
@@ -117,10 +159,15 @@ export function FavoritesPage() {
         </TabPanels>
       </TabGroup>
 
-
-
-
-
+      <NameDetailDrawer
+        name={selectedName}
+        isOpen={selectedIndex !== null}
+        onClose={closeNameDetail}
+        onPrev={hasPrevPageClick ? () => handleDrawerNavigation('prev') : undefined}
+        onNext={hasNextPageClick ? () => handleDrawerNavigation('next') : undefined}
+        isFavorited={selectedName ? isFavorited(selectedName.id) : false}
+        onToggleFavorite={activeTab === 0 ? (nameId, name) => toggleFavorite(nameId, name ?? '') : undefined}
+      />
     </section>
   )
 }

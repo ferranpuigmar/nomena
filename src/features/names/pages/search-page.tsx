@@ -8,6 +8,7 @@ import { useAuthStore } from '@src/features/auth/store/auth-store'
 import { useFavoritesByUserId } from '@src/features/favorites/hooks/use-favorites'
 import { ContentWrapper } from '@src/app/shared/components/content-wrapper/content-wrapper.tsx'
 import HeroSearch from '../components/hero-search.tsx'
+import { Button } from '@src/app/shared/components/button/button.tsx'
 
 export function SearchPage() {
   const userId = useAuthStore((state) => state.user?.uid)
@@ -40,13 +41,13 @@ export function SearchPage() {
   return (
     <ContentWrapper hasFullLayout>
       <section>
-        <HeroSearch 
-          handleOnToggleGender={toggleGender} 
-          handleOnQueryLetter={handleQueryLetter} 
-          handleOnDebounceQuery={handleDebounceQuery} 
-          selectedGender={selectedGender} 
+        <HeroSearch
+          handleOnToggleGender={toggleGender}
+          handleOnQueryLetter={handleQueryLetter}
+          handleOnDebounceQuery={handleDebounceQuery}
+          selectedGender={selectedGender}
         />
-        
+
         <ContentWrapper>
           <div className="grid grid-cols-4 gap-4">
             {allNames.map((name, index) => (
@@ -64,11 +65,14 @@ export function SearchPage() {
             ))}
           </div>
 
-          {isLoading && <p>Loading...</p>}
+          {isLoading && <p>Cargando...</p>}
           {error && <p>Error: {error.message}</p>}
-          <button onClick={() => fetchNextPage()} disabled={isLoading}>
-            Load More
-          </button>
+          <div className='flex justify-center w-full mt-6'>
+            <Button className='px-14' onClick={() => fetchNextPage()} disabled={isLoading}>
+              Cargar más nombres
+            </Button>
+          </div>
+
 
           <NameDetailDrawer
             name={selectedName}
