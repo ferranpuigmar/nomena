@@ -1,8 +1,4 @@
 import {
-  collection,
-  query,
-  where,
-  getDocs,
   doc,
   getDoc,
   writeBatch,
@@ -14,19 +10,15 @@ import type { InviteCodeDb } from '@src/features/couple/types/couple-type';
 import { INVITE_CODE_TTL_MS } from '@src/features/couple/types/couple-type';
 
 export async function redeemInvite(redeemerUserId: string, code: string): Promise<void> {
-  // 1. Find invite code document
-  const codesRef = collection(db, 'inviteCodes');
-  const q = query(codesRef, where('code', '==', code));
-  const snapshot = await getDocs(q);
+  const inviteRef = doc(db, 'inviteCodes', code);
+  const inviteSnap = await getDoc(inviteRef);
 
-  if (snapshot.empty) {
+  if (!inviteSnap.exists()) {
     throw new Error('Código de invitación no válido.');
   }
 
-  const inviteDoc = snapshot.docs[0];
-  const inviteData = inviteDoc.data() as InviteCodeDb;
+  const inviteData = inviteSnap.data() as InviteCodeDb;
 
-  // 2. Verify TTL
   const createdAt = inviteData.created_at.toDate();
   const isExpired = Date.now() - createdAt.getTime() > INVITE_CODE_TTL_MS;
   if (isExpired) {
@@ -39,16 +31,15 @@ export async function redeemInvite(redeemerUserId: string, code: string): Promis
     throw new Error('No puedes usar tu propio código de invitación.');
   }
 
-  // 3. Ensure both userFavorites documents exist
   const ownerFavRef = doc(db, 'userFavorites', ownerUserId);
   const redeemerFavRef = doc(db, 'userFavorites', redeemerUserId);
+  const activeInviteRef = doc(db, 'userActiveInvite', ownerUserId);
 
   const [ownerSnap, redeemerSnap] = await Promise.all([
     getDoc(ownerFavRef),
     getDoc(redeemerFavRef),
   ]);
 
-  // 4. Atomic batch write
   const batch = writeBatch(db);
 
   if (!ownerSnap.exists()) {
@@ -73,7 +64,8 @@ export async function redeemInvite(redeemerUserId: string, code: string): Promis
     batch.update(redeemerFavRef, { shared_with: arrayUnion(ownerUserId) });
   }
 
-  batch.delete(inviteDoc.ref);
+  batch.delete(inviteRef);
+  batch.delete(activeInviteRef);
 
   await batch.commit();
 }
