@@ -29,3 +29,5 @@ src/features/seeds/files/
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.env*
