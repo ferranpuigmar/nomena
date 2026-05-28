@@ -32,8 +32,12 @@ export const UserMenu = ({ user, onLogout }: UserMenuProps) => {
   return (
     <Menu as="div" className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <MenuButton className="flex gap-2 items-center cursor-pointer">
-        <div className="size-8 rounded-full bg-gray-200 overflow-hidden shrink-0">
-          <img src={user.avatarUrl ?? undefined} alt="User Avatar" className="size-full object-cover" />
+        <div className="size-8 rounded-full bg-gray-200 overflow-hidden shrink-0 flex items-center justify-center text-sm font-medium text-gray-600">
+          {user.avatarUrl ? (
+            <img src={user.avatarUrl} alt="User Avatar" className="size-full object-cover" />
+          ) : (
+            (user.displayName?.charAt(0) ?? '?').toUpperCase()
+          )}
         </div>
         {user.displayName && <span className="font-medium text-gray-900 capitalize">{user.displayName}</span>}
         <ArrowDown className={`size-3 text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
