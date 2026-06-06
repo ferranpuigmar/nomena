@@ -21,9 +21,9 @@ export const BaseLayout = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col h-screen">
       <Header menuItems={appNavItems} actions={<AuthHeaderControls />} />
-      <main className="w-full">
+      <main className="flex-1 w-full overflow-auto">
         <Outlet />
       </main>
     </div>

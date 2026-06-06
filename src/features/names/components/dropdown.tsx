@@ -52,9 +52,15 @@ const Dropdown = ({ dropDownButton, dropDownItem, className }: DropdownMenuProps
                     {dropDownButton}
                 </DropDownButton>
                 <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
-                    <DialogBackdrop className="fixed inset-0 bg-black/30" />
+                    <DialogBackdrop 
+                        transition
+                        className="fixed inset-0 bg-black/30 transition-opacity duration-300 ease-in-out data-closed:opacity-0" 
+                    />
                     <div className="fixed inset-0 flex items-end justify-center">
-                        <DialogPanel className="w-full rounded-t-2xl bg-white p-4">
+                        <DialogPanel 
+                            transition
+                            className="w-full rounded-t-2xl bg-white p-4 transition-transform duration-300 ease-in-out data-closed:translate-y-full"
+                        >
                             {dropDownItem}
                         </DialogPanel>
                     </div>

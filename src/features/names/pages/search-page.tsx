@@ -9,6 +9,7 @@ import { useFavoritesByUserId } from '@src/features/favorites/hooks/use-favorite
 import { ContentWrapper } from '@src/app/shared/components/content-wrapper/content-wrapper.tsx'
 import HeroSearch from '../components/hero-search.tsx'
 import { Button } from '@src/app/shared/components/button/button.tsx'
+import { Loader2 } from 'lucide-react'
 
 export function SearchPage() {
   const userId = useAuthStore((state) => state.user?.uid)
@@ -49,29 +50,48 @@ export function SearchPage() {
         />
 
         <ContentWrapper>
-          <div className="grid grid-cols-4 gap-4">
-            {allNames.map((name, index) => (
-              <NameCard
-                key={name.normalizedName}
-                name={name.name}
-                nameId={name.id}
-                gender={name.gender}
-                origin={name.origin}
-                usageScore={name.usageScore}
-                isFavorited={isFavorited(name.id)}
-                onToggleFavorite={() => toggleFavorite(name.id, name.name)}
-                onClick={() => openNameDetail(index)}
-              />
-            ))}
-          </div>
+          {isLoading && allNames.length === 0 ? (
+            // Estado de carga inicial: spinner centrado con min-height
+            <div className="flex items-center justify-center min-h-[60vh]">
+              <div className="flex flex-col items-center gap-3">
+                <Loader2 className="animate-spin h-8 w-8 text-accent-primary" />
+                <p className="text-sm text-neutral-600">Cargando nombres...</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+                {allNames.map((name, index) => (
+                  <NameCard
+                    key={name.normalizedName}
+                    name={name.name}
+                    nameId={name.id}
+                    gender={name.gender}
+                    origin={name.origin}
+                    usageScore={name.usageScore}
+                    isFavorited={isFavorited(name.id)}
+                    onToggleFavorite={() => toggleFavorite(name.id, name.name)}
+                    onClick={() => openNameDetail(index)}
+                  />
+                ))}
+              </div>
 
-          {isLoading && <p>Cargando...</p>}
-          {error && <p>Error: {error.message}</p>}
-          <div className='flex justify-center w-full mt-6'>
-            <Button className='px-14' onClick={() => fetchNextPage()} disabled={isLoading}>
-              Cargar más nombres
-            </Button>
-          </div>
+              {error && <p className="text-center text-red-600 mt-6">Error: {error.message}</p>}
+              
+              <div className='flex justify-center w-full mt-6'>
+                <Button className='px-14' onClick={() => fetchNextPage()} disabled={isLoading}>
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <Loader2 className="animate-spin h-4 w-4" />
+                      Cargando...
+                    </span>
+                  ) : (
+                    'Cargar más nombres'
+                  )}
+                </Button>
+              </div>
+            </>
+          )}
 
 
           <NameDetailDrawer

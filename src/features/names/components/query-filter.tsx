@@ -1,6 +1,7 @@
 import React from "react";
 import SearchInput from "./search-input";
 import Letters from "./letters";
+import { cn } from "@src/lib/cn";
 
 interface QueryFilterProps {
     handleQueryInput: (query: string) => void;
@@ -9,9 +10,10 @@ interface QueryFilterProps {
     selectedLetter: string | null;
     onSetSelectedLetter: (letter: string | null) => void;
     isFixed: boolean;
+    isMobile: boolean;
 }
 
-const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters, selectedLetter, onSetSelectedLetter, isFixed }: QueryFilterProps) => {
+const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters, selectedLetter, onSetSelectedLetter, isFixed, isMobile }: QueryFilterProps) => {
     const [searchInput, setSearchInput] = React.useState('');
 
     const handleLetterClick = (letter: string) => {
@@ -28,10 +30,18 @@ const QueryFilter = ({ handleQueryInput, handleQueryLetter, letters, selectedLet
     }
 
     return (
-        <>
+        <div className={cn(
+            "w-full",
+            !isFixed && !isMobile ? "flex flex-col items-center gap-3" : ""
+        )}>
             <SearchInput onHandleInputChange={handleInputChange} searchInputValue={searchInput} isFixed={isFixed} />
-            {!isFixed && <div className="flex justify-center gap-3"><Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} /></div>}
-        </>
+            {/* Letras horizontales solo en desktop no-sticky */}
+            {!isFixed && !isMobile && (
+                <div className="flex justify-center gap-2">
+                    <Letters letters={letters} selectedLetter={selectedLetter} handleLetterClick={handleLetterClick} />
+                </div>
+            )}
+        </div>
     )
 }
 
