@@ -11,10 +11,12 @@ type HeaderProps = {
 const Header = ({ menuItems, actions }: HeaderProps) => {
 
   return (
-    <header className="border-b border-stroke-subtle bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center gap-6">
+    <header className="sticky top-0 z-40 border-b border-stroke-subtle bg-white h-[60px] md:h-[68px]">
+        <div className="h-full max-w-7xl mx-auto px-4 flex justify-between items-center gap-4 md:gap-6">
           <Logo />
-          <Menu items={menuItems} />
+          <div className="hidden md:flex md:flex-1 md:justify-center">
+            <Menu items={menuItems} />
+          </div>
           {actions}
         </div>
     </header>

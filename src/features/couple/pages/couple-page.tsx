@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuthStore } from '@src/features/auth/store/auth-store';
 import { useCouple } from '../hooks/use-couple';
+import { HeartHandshake, Loader2, Share2, Link, Copy, Timer } from 'lucide-react';
 
 export function CouplePage() {
   const userId = useAuthStore((state) => state.user?.uid);
@@ -40,103 +41,176 @@ export function CouplePage() {
   };
 
   if (isLoadingShared) {
-    return <p>Cargando...</p>;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="animate-spin h-8 w-8 text-accent-primary" />
+      </div>
+    );
   }
 
   return (
     <section className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Compartir favoritos</h1>
-        <p className="mt-2 text-gray-600">
-          Conecta con tu pareja para ver sus nombres favoritos.
+      {/* Hero Section */}
+      <div className="flex flex-col items-center text-center space-y-3">
+        <HeartHandshake size={48} strokeWidth={1.5} className="text-accent-primary" />
+        <h1 className="text-2xl md:text-[32px] font-heading font-semibold text-neutral-900 leading-tight">
+          Compara con tu pareja
+        </h1>
+        <p className="text-sm md:text-[15px] text-neutral-600 max-w-[300px] md:max-w-[480px]">
+          Conecta tu cuenta con la de tu pareja para descubrir qué nombres os gustan a los dos
         </p>
       </div>
 
-      {/* Partners list */}
+      {/* Connected Partners Section */}
       {hasPartners && (
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Conectado con
-          </h2>
-          {sharedFavorites.map((partnerFavorites) => (
-            <div
-              key={partnerFavorites.userId}
-              className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm"
-            >
-              <span className="text-sm font-medium text-gray-800">
-                {partnerDisplayNames[partnerFavorites.userId] ?? partnerFavorites.userId}
-              </span>
-              <button
-                onClick={() => removePartner(partnerFavorites.userId)}
-                disabled={isRemoving}
-                className="text-sm text-red-500 hover:text-red-700 disabled:opacity-50"
-              >
-                Desconectar
-              </button>
+        <div className="space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 p-7 space-y-5">
+            <h2 className="text-lg font-heading font-semibold text-neutral-900">
+              Conectado con
+            </h2>
+            <div className="space-y-3">
+              {sharedFavorites.map((partnerFavorites) => (
+                <div
+                  key={partnerFavorites.userId}
+                  className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 last:pb-0"
+                >
+                  <span className="text-sm font-medium text-neutral-900">
+                    {partnerDisplayNames[partnerFavorites.userId] ?? partnerFavorites.userId}
+                  </span>
+                  <button
+                    onClick={() => removePartner(partnerFavorites.userId)}
+                    disabled={isRemoving}
+                    className="text-sm text-accent-secondary hover:text-accent-secondary/80 disabled:opacity-50 transition"
+                  >
+                    Desconectar
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       )}
 
-      {/* Generate invite */}
-      <div className="space-y-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-          Invitar a alguien
-        </h2>
-        <button
-          onClick={() => generateInvite()}
-          disabled={isGenerating}
-          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
-        >
-          {isGenerating ? 'Generando...' : 'Generar código de invitación'}
-        </button>
-
-        {generatedCode && (
-          <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
-            <code className="flex-1 break-all text-sm text-gray-800">{generatedCode}</code>
-            <button
-              onClick={handleCopy}
-              className="shrink-0 text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {copied ? 'Copiado' : 'Copiar'}
-            </button>
+      {/* Invite Section */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Generate Invite Card */}
+        <div className="bg-white rounded-2xl border border-neutral-200 p-7 space-y-5">
+          {/* Header with icon */}
+          <div className="flex items-center gap-3">
+            <Share2 size={20} className="text-accent-primary" />
+            <h2 className="text-lg font-heading font-semibold text-neutral-900">
+              Invitar a tu pareja
+            </h2>
           </div>
-        )}
-
-        {generatedCode && (
-          <p className="text-xs text-gray-400">
-            Este código expira en 48 horas. Generar uno nuevo invalidará el anterior.
+          
+          <p className="text-sm text-neutral-600">
+            Genera un código único y compártelo con tu pareja para conectar vuestras cuentas.
           </p>
-        )}
-      </div>
 
-      {/* Redeem invite */}
-      <div className="space-y-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-          Introducir código de invitación
-        </h2>
-        <form onSubmit={handleRedeem} className="flex gap-3">
-          <input
-            type="text"
-            value={codeInput}
-            onChange={(e) => setCodeInput(e.target.value)}
-            placeholder="Pega el código aquí"
-            className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-900 focus:outline-none"
-          />
+          {/* Code Box */}
+          {generatedCode ? (
+            <div className="bg-neutral-50 border border-neutral-200 rounded-lg px-5 py-4 flex items-center justify-between gap-3">
+              <code className="flex-1 text-sm md:text-lg font-bold tracking-[2px] text-neutral-900 break-all">
+                {generatedCode}
+              </code>
+              <button
+                onClick={handleCopy}
+                className="shrink-0 text-neutral-500 hover:text-accent-primary transition"
+                aria-label={copied ? 'Copiado' : 'Copiar código'}
+              >
+                <Copy size={18} />
+              </button>
+            </div>
+          ) : (
+            <div className="bg-neutral-50 border border-neutral-200 rounded-lg px-5 py-4 flex items-center justify-center h-[58px]">
+              <span className="text-sm text-neutral-400">
+                Genera un código para compartir
+              </span>
+            </div>
+          )}
+
+          {/* Expiration info */}
+          {generatedCode && (
+            <div className="flex items-center gap-2.5">
+              <Timer size={14} className="text-neutral-500" />
+              <p className="text-xs text-neutral-500">
+                Este código expira en 48 horas
+              </p>
+            </div>
+          )}
+
+          {/* Generate Button */}
           <button
-            type="submit"
-            disabled={isRedeeming || !codeInput.trim()}
-            className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
+            onClick={() => generateInvite()}
+            disabled={isGenerating}
+            className="w-full bg-accent-primary hover:bg-accent-primary/90 disabled:opacity-50 text-white font-medium rounded-lg h-12 transition flex items-center justify-center"
           >
-            {isRedeeming ? 'Verificando...' : 'Conectar'}
+            {isGenerating ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="animate-spin h-4 w-4" />
+                <span>Generando...</span>
+              </div>
+            ) : (
+              'Generar nuevo código'
+            )}
           </button>
-        </form>
+        </div>
 
-        {redeemError && (
-          <p className="text-sm text-red-500">
-            {redeemError instanceof Error ? redeemError.message : 'Error al canjear el código.'}
+        {/* Redeem Invite Card */}
+        <div className="bg-white rounded-2xl border border-neutral-200 p-7 space-y-5">
+          {/* Header with icon */}
+          <div className="flex items-center gap-3">
+            <Link size={20} className="text-accent-primary" />
+            <h2 className="text-lg font-heading font-semibold text-neutral-900">
+              ¿Tienes un código?
+            </h2>
+          </div>
+          
+          <p className="text-sm text-neutral-600">
+            Introduce el código que te ha compartido tu pareja para conectar vuestras cuentas.
           </p>
-        )}
+
+          <form onSubmit={handleRedeem} className="space-y-5">
+            {/* Input */}
+            <div className="space-y-2.5">
+              <label htmlFor="invite-code" className="block text-sm font-medium text-neutral-600">
+                Código de invitación
+              </label>
+              <input
+                id="invite-code"
+                type="text"
+                value={codeInput}
+                onChange={(e) => setCodeInput(e.target.value)}
+                placeholder="Ej: NOM-XXXX-XXXX"
+                className="w-full h-12 px-4 bg-white border border-neutral-300 rounded-lg text-sm placeholder:text-neutral-400 focus:outline-none focus:border-accent-primary transition"
+              />
+            </div>
+
+            {/* Connect Button */}
+            <button
+              type="submit"
+              disabled={isRedeeming || !codeInput.trim()}
+              className="w-full bg-accent-primary hover:bg-accent-primary/90 disabled:opacity-50 text-white font-medium rounded-lg h-12 transition flex items-center justify-center"
+            >
+              {isRedeeming ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Conectando...</span>
+                </div>
+              ) : (
+                'Conectar cuentas'
+              )}
+            </button>
+          </form>
+
+          {redeemError && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-sm text-red-600">
+                {redeemError instanceof Error ? redeemError.message : 'Error al canjear el código.'}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

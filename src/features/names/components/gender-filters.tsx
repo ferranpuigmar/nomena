@@ -22,12 +22,12 @@ type GenderFiltersProps = {
 export function GenderFilters({ selectedGender, onToggleGender, isFixed }: GenderFiltersProps) {
 
   const wrapperClass = cn(
-    "flex gap-4 mb-2 justify-center",
-    { 'mb-0 gap-2': isFixed }
+    "flex gap-2 justify-center overflow-x-auto pb-1 md:gap-3 md:overflow-visible",
+    { 'mb-0': isFixed, 'mb-2': !isFixed }
   )
 
   const buttonClass = cn(
-    "px-4 py-1.5 rounded-xl text-sm",
+    "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium md:text-sm",
     { 'h-10': isFixed }
   )
 

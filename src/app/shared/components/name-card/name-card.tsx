@@ -91,7 +91,7 @@ const NameCard = ({
 			</div>
 
 			{usageScore != null && (
-				<div className="flex justify-between border border-t-0 rounded-bl-lg rounded-br-lg p-4 py-3 border-neutral-200">
+				<div className="flex flex-col md:flex-row md:justify-between gap-2 border border-t-0 rounded-bl-lg rounded-br-lg p-4 py-3 border-neutral-200">
 					{gender && (
 						<div className="flex gap-2 text-xs text-gray-500">
 							<Tag variant={GENDER_DICTIONARY[gender]}>{GENDER_LABEL[gender]}</Tag>

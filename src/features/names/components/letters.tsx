@@ -8,8 +8,8 @@ interface LettersProps {
 
 const Letters = ({ letters, selectedLetter, handleLetterClick }: LettersProps) => {
     const letterSquareClass = (letter: string) => cn(
-        'bg-neutral cursor-pointer hover:text-accent-primary transition-colors text-sm font-regular',
-        selectedLetter === letter ? 'text-accent-primary font-bold' : 'text-fg-tertiary'
+        'shrink-0 cursor-pointer hover:text-accent-primary transition-colors text-xs font-medium md:text-sm',
+        selectedLetter === letter ? 'text-accent-primary font-bold' : 'text-neutral-500'
     );
 
     return (
