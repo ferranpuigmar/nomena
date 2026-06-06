@@ -21,9 +21,7 @@ export const AccountProfilePage = () => {
         <div className="space-y-2 flex-1">
           <p className="text-base font-medium text-neutral-900">{user?.email ?? 'Sin email'}</p>
           <p className="text-[13px] text-neutral-500">
-            Miembro desde {user?.metadata?.creationTime 
-              ? new Date(user.metadata.creationTime).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
-              : 'hace poco'}
+            Miembro desde hace poco
           </p>
         </div>
       </div>
